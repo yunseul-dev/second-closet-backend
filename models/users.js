@@ -28,3 +28,7 @@ const createUser = (userId, password) => {
     },
   ];
 };
+
+const getUsers = () => users;
+
+module.exports = { createUser, findUserById, findUser, getUsers };

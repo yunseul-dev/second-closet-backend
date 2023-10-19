@@ -46,3 +46,5 @@ router.post('/signup', (req, res) => {
 
   res.send({ userId, name: newUser.name });
 });
+
+module.exports = router;
