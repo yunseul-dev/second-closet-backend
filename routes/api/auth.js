@@ -15,3 +15,34 @@ router.get('/verify', (req, res) => {
     res.send({ isLogin: false });
   }
 });
+
+router.post('/signin', (req, res) => {
+  const { userId, password } = req.body;
+
+  const user = users.findUser(userId, password);
+
+  if (!user) return res.status(401).send('잘못된 아이디나 비밀번호가 입력됐습니다.');
+
+  const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
+
+  res.cookie('accessToken', accessToken, {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+  });
+
+  res.send(userId);
+});
+
+router.post('/signup', (req, res) => {
+  const { userId, password } = req.body;
+
+  const user = users.findUserById(userId);
+  if (user) return res.status(409).send('중복된 사용자가 존재합니다.');
+
+  users.createUser(userId, password);
+  const newUser = users.findUserById(userId);
+
+  res.send({ userId, name: newUser.name });
+});
