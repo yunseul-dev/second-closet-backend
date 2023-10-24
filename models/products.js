@@ -10,7 +10,7 @@ const findProductByUserId = userId => products.filter(product => product.userId 
 const findProductById = productId => products.filter(product => product.productId === productId);
 
 // productId 만드는 함수
-const createProductId = () => Math.max([...products.map(product => product.productId)]) + 1;
+const createProductId = () => (products.length ? Math.max(...products.map(product => +product.productId)) + 1 : 1);
 
 // 게시글 등록 함수
 const createProduct = ({
@@ -18,9 +18,10 @@ const createProduct = ({
   userId,
   productName,
   img,
-  category,
+  categories,
   count,
   price,
+  discount,
   delivery,
   exchange,
   description,
@@ -30,13 +31,14 @@ const createProduct = ({
   products = [
     ...products,
     {
-      userId: userId,
       productId: productId,
+      userId: userId,
       productName: productName,
       img: img,
-      category: category,
+      categories: categories,
       count: count,
       price: price,
+      discount: discount,
       delivery: delivery,
       description: description,
       tags: tags,
