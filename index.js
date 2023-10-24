@@ -9,6 +9,7 @@ const { PORT } = process.env;
 
 const auth = require('./routes/api/auth');
 const users = require('./routes/api/users');
+const products = require('./routes/api/products');
 
 const corsOptions = {
   origin: process.env.CORS_CLIENT_URL,
@@ -22,5 +23,6 @@ app.use(cookieParser());
 
 app.use('/api/auth', auth);
 app.use('/api/users', users);
+app.use('/api/products', products);
 
 app.listen(PORT);
