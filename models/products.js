@@ -1,16 +1,4 @@
-let products = [
-  {
-    userId: '',
-    productId: '',
-    productName: '',
-    img: [],
-    count: '',
-    price: '',
-    description: '',
-    heearts: 0,
-    createdAt: '',
-  },
-];
+let products = [];
 
 // 모든 게시글을 얻는 함수
 const getProducts = () => products;
@@ -25,19 +13,37 @@ const findProductById = productId => products.filter(product => product.productI
 const createProductId = () => Math.max([...products.map(product => product.productId)]) + 1;
 
 // 게시글 등록 함수
-const createProduct = ({ userId, productName, img, price, description, createdAt }) => {
+const createProduct = ({
+  productId,
+  userId,
+  productName,
+  img,
+  category,
+  count,
+  price,
+  delivery,
+  exchange,
+  description,
+  tags,
+  size,
+}) => {
   products = [
     ...products,
     {
       userId: userId,
-      productId: createProductId(),
+      productId: productId,
       productName: productName,
       img: img,
-      count: '',
+      category: category,
+      count: count,
       price: price,
+      delivery: delivery,
       description: description,
-      heearts: 0,
-      createdAt: createdAt,
+      tags: tags,
+      exchange: exchange,
+      size: size,
+      createdAt: Date.now(),
+      hearts: 0,
     },
   ];
 };
@@ -47,4 +53,4 @@ const deleteProduct = productId => {
   products = products.filter(product => product.productId !== productId);
 };
 
-export { getProducts, findProductByUserId, findProductById, createProduct, deleteProduct };
+module.exports = { getProducts, findProductByUserId, findProductById, createProductId, createProduct, deleteProduct };
