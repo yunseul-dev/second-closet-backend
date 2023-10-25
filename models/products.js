@@ -13,11 +13,11 @@ const findProductById = productId => products.filter(product => product.productI
 const createProductId = () => (products.length ? Math.max(...products.map(product => +product.productId)) + 1 : 1);
 
 // 게시글 등록 함수
-const createProduct = ({
+const createProduct = (
   productId,
   userId,
   productName,
-  img,
+  imgs,
   categories,
   count,
   price,
@@ -27,14 +27,14 @@ const createProduct = ({
   description,
   tags,
   size,
-}) => {
+) => {
   products = [
     ...products,
     {
       productId: productId,
       userId: userId,
       productName: productName,
-      img: img,
+      imgs: imgs,
       categories: categories,
       count: count,
       price: price,
