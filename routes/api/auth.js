@@ -17,13 +17,13 @@ router.get('/verify', (req, res) => {
 });
 
 router.post('/signin', (req, res) => {
-  const { userId, password } = req.body;
+  const { userid, password } = req.body;
 
-  const user = users.findUser(userId, password);
+  const user = users.findUser(userid, password);
 
   if (!user) return res.status(401).send('잘못된 아이디나 비밀번호가 입력됐습니다.');
 
-  const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
+  const accessToken = jwt.sign({ userid }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
 
   res.cookie('accessToken', accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -32,19 +32,19 @@ router.post('/signin', (req, res) => {
     secure: true,
   });
 
-  res.send(userId);
+  res.send(userid);
 });
 
 router.post('/signup', (req, res) => {
-  const { userId, password } = req.body;
+  const { userid, password } = req.body;
 
-  const user = users.findUserById(userId);
+  const user = users.findUserById(userid);
   if (user) return res.status(409).send('중복된 사용자가 존재합니다.');
 
-  users.createUser(userId, password);
-  const newUser = users.findUserById(userId);
+  users.createUser(userid, password);
+  const newUser = users.findUserById(userid);
 
-  res.send({ userId, name: newUser.name });
+  res.send({ userid, name: newUser.name });
 });
 
 module.exports = router;
