@@ -32,20 +32,18 @@ router.get('/', (req, res) => {
   res.send(allProduct);
 });
 
-router.post('/post', upload.single('photo'), (req, res) => {
+router.post('/post', upload.array('photo'), (req, res) => {
   const { userId, productName, categories, count, price, discount, delivery, exchange, description, tags, size } =
-    req.body.data;
+    JSON.parse(req.body.data);
 
-  console.log('here', req.body.data);
-
-  const img = req.file.filename;
+  const imgs = req.files.map(file => file.filename);
   const productId = products.createProductId();
 
-  products.createProduct({
+  products.createProduct(
     productId,
     userId,
     productName,
-    img,
+    imgs,
     categories,
     count,
     price,
@@ -55,7 +53,7 @@ router.post('/post', upload.single('photo'), (req, res) => {
     description,
     tags,
     size,
-  });
+  );
 
   res.sendStatus(200);
 });
