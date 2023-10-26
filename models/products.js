@@ -7,7 +7,7 @@ const getProducts = () => products;
 const findProductByUserId = userId => products.filter(product => product.userId === userId);
 
 // productId로 해당 게시물을 찾는 함수.
-const findProductById = productId => products.filter(product => product.productId === productId);
+const findProductById = productId => products.filter(product => product.productId === +productId);
 
 // productId 만드는 함수
 const createProductId = () => (products.length ? Math.max(...products.map(product => +product.productId)) + 1 : 1);
@@ -27,6 +27,7 @@ const createProduct = (
   description,
   tags,
   size,
+  facetoface,
 ) => {
   products = [
     ...products,
@@ -44,6 +45,7 @@ const createProduct = (
       tags: tags,
       exchange: exchange,
       size: size,
+      facetoface: facetoface,
       createdAt: Date.now(),
       hearts: 0,
     },
