@@ -33,8 +33,20 @@ router.get('/', (req, res) => {
 });
 
 router.post('/post', upload.array('photo'), (req, res) => {
-  const { userId, productName, categories, count, price, discount, delivery, exchange, description, tags, size } =
-    JSON.parse(req.body.data);
+  const {
+    userId,
+    productName,
+    categories,
+    count,
+    price,
+    discount,
+    delivery,
+    exchange,
+    description,
+    tags,
+    size,
+    facetoface,
+  } = JSON.parse(req.body.data);
 
   const imgs = req.files.map(file => file.filename);
   const productId = products.createProductId();
@@ -53,9 +65,26 @@ router.post('/post', upload.array('photo'), (req, res) => {
     description,
     tags,
     size,
+    facetoface,
   );
 
   res.sendStatus(200);
+});
+
+router.get('/:productId', (req, res) => {
+  const { productId } = req.params;
+
+  const product = products.findProductById(productId);
+
+  res.send(product);
+});
+
+router.get('/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+
+  const filePath = path.join(process.cwd(), 'uploads', filename);
+
+  res.sendFile(filePath);
 });
 
 module.exports = router;
