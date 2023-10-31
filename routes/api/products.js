@@ -32,6 +32,12 @@ router.get('/', (req, res) => {
   res.send(allProduct);
 });
 
+router.get('/populars', (req, res) => {
+  const populars = products.getPopulars();
+
+  res.send(populars);
+});
+
 router.post('/post', upload.array('photo'), (req, res) => {
   const {
     userId,
@@ -85,6 +91,17 @@ router.get('/uploads/:filename', (req, res) => {
   const filePath = path.join(process.cwd(), 'uploads', filename);
 
   res.sendFile(filePath);
+});
+
+router.patch('/hearts/:productId', (req, res) => {
+  const { productId } = req.params;
+  const hearts = req.body;
+  console.log('productId: ', productId);
+  console.log('hearts: ', hearts);
+
+  products.updateHearts(productId, hearts);
+
+  res.send(products);
 });
 
 module.exports = router;
