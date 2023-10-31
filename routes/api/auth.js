@@ -10,20 +10,20 @@ router.get('/verify', (req, res) => {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
 
     const user = users.findUserById(decoded.userId);
-    res.send({ isLogin: true, id: user.userId });
+    res.send({ isLogin: true, userId: user.userId });
   } catch (e) {
     res.send({ isLogin: false });
   }
 });
 
 router.post('/signin', (req, res) => {
-  const { userid, password } = req.body;
+  const { userId, password } = req.body;
 
-  const user = users.findUser(userid, password);
+  const user = users.findUser(userId, password);
 
   if (!user) return res.status(401).send('잘못된 아이디나 비밀번호가 입력됐습니다.');
 
-  const accessToken = jwt.sign({ userid }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
+  const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
 
   res.cookie('accessToken', accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -32,7 +32,7 @@ router.post('/signin', (req, res) => {
     secure: true,
   });
 
-  res.send(userid);
+  res.send(userId);
 });
 
 router.post('/signup', (req, res) => {
