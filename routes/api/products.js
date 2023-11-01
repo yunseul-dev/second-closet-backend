@@ -32,12 +32,46 @@ router.get('/', (req, res) => {
   res.send(allProduct);
 });
 
-router.get('/populars', (req, res) => {
-  const populars = products.getPopulars();
+// 추천 상품(바로가기)
+router.get('/recommend', (req, res) => {
+  const recommendProduct = products.getRecommend();
+
+  res.send(recommendProduct);
+});
+
+router.get('/related', (req, res) => {
+  const relatedProduct = products.getRelated();
+
+  res.send(relatedProduct);
+});
+
+// 인기순 무한스크롤
+router.get('/populars/:page', (req, res) => {
+  const { page } = req.params;
+
+  const populars = products.getPopulars(page);
 
   res.send(populars);
 });
 
+// 상품 상세페이지
+router.get('/:productId', (req, res) => {
+  const { productId } = req.params;
+
+  const product = products.findProductById(productId);
+
+  res.send(product);
+});
+
+router.get('/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+
+  const filePath = path.join(process.cwd(), 'uploads', filename);
+
+  res.sendFile(filePath);
+});
+
+// 상품 등록
 router.post('/post', upload.array('photo'), (req, res) => {
   const {
     userId,
@@ -77,27 +111,10 @@ router.post('/post', upload.array('photo'), (req, res) => {
   res.sendStatus(200);
 });
 
-router.get('/:productId', (req, res) => {
-  const { productId } = req.params;
-
-  const product = products.findProductById(productId);
-
-  res.send(product);
-});
-
-router.get('/uploads/:filename', (req, res) => {
-  const { filename } = req.params;
-
-  const filePath = path.join(process.cwd(), 'uploads', filename);
-
-  res.sendFile(filePath);
-});
-
+// 찜 업데이트
 router.patch('/hearts/:productId', (req, res) => {
   const { productId } = req.params;
   const hearts = req.body;
-  console.log('productId: ', productId);
-  console.log('hearts: ', hearts);
 
   products.updateHearts(productId, hearts);
 
