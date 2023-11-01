@@ -90,7 +90,7 @@ let products = [
     size: 's',
     facetoface: true,
     createdAt: 1698645496732,
-    hearts: ['siddl333', 'starbucks', 'chocolate', 'photoism', 'harufilm33', 'iphone15'],
+    hearts: ['siddl333', 'starbucks', 'chocolate', 'photoism', 'harufilm33', 'iphone15', 'doongee92'],
   },
   {
     productId: 6,
@@ -126,7 +126,17 @@ let products = [
     size: 'free',
     facetoface: true,
     createdAt: 1698647202716,
-    hearts: ['alskfl', 'yunseul', 'starbucks', 'atom304', 'photoism', 'harufilm33', 'iphone15'],
+    hearts: [
+      'alskfl',
+      'yunseul',
+      'starbucks',
+      'atom304',
+      'photoism',
+      'harufilm33',
+      'iphone15',
+      'flanwls88',
+      'dkfud123',
+    ],
   },
   {
     productId: 8,
@@ -145,7 +155,158 @@ let products = [
     size: 'free',
     facetoface: true,
     createdAt: 1698661114300,
-    hearts: ['alskfl', 'wooseung', 'zzzang9', 'photoism', 'yunminaaa99', 'prinxesseul'],
+    hearts: ['alskfl', 'wooseung', 'zzzang9', 'photoism', 'yunminaaa99', 'prinxesseul', 'hera1423', 'starbucks'],
+  },
+  {
+    productId: 9,
+    userId: 'test',
+    productName: '락피쉬 웨더웨어 윈터 퍼 뮬 ',
+    imgs: ['1698806809728.png', '1698806809750.png', '1698806809761.png'],
+    categories: ['신발', '슬리퍼/뮬', '뮬'],
+    count: '새상품',
+    price: '45,000',
+    discount: false,
+    delivery: true,
+    description: '새상품',
+    tags: ['락피쉬웨더웨어', '뮬'],
+    exchange: false,
+    size: '235',
+    facetoface: false,
+    createdAt: 1698806809773,
+    hearts: ['dkfud123', 'hera1423', 'starbucks'],
+  },
+  {
+    productId: 10,
+    userId: 'test',
+    productName: '애트몽 포켓 트위드 자켓',
+    imgs: ['1698807159284.png', '1698807159298.png', '1698807159314.png', '1698807159328.png', '1698807159338.png'],
+    categories: ['여성의류', '아우터', '자켓'],
+    count: '4회',
+    price: '189,000',
+    discount: false,
+    delivery: false,
+    description: '핑크색 트위드 자켓입니다. 아주 귀여워요~!',
+    tags: ['애트몽', '트위드', '트위드자켓'],
+    exchange: false,
+    size: 'free',
+    facetoface: false,
+    createdAt: 1698807159345,
+    hearts: ['siddl333', 'dkfud123', 'hera1423', 'starbucks'],
+  },
+  {
+    productId: 11,
+    userId: 'test',
+    productName: '시엔느 볼캡',
+    imgs: [
+      '1698807500420.png',
+      '1698807500435.png',
+      '1698807500454.png',
+      '1698807500464.png',
+      '1698807500469.png',
+      '1698807500477.png',
+    ],
+    categories: ['액세서리', '모자', '볼캡'],
+    count: '새상품',
+    price: '38,000',
+    discount: false,
+    delivery: false,
+    description: '네이비 색상입니다.',
+    tags: ['시엔느', '시엔느볼캡', '볼캡', '모자'],
+    exchange: false,
+    size: 'free',
+    facetoface: true,
+    createdAt: 1698807500484,
+    hearts: [],
+  },
+  {
+    productId: 12,
+    userId: 'test',
+    productName: '넘버링 진주목걸이',
+    imgs: ['1698808010711.png', '1698808010742.png', '1698808010745.png'],
+    categories: ['액세서리', '주얼리', '목걸이'],
+    count: '새상품',
+    price: '130,000',
+    discount: true,
+    delivery: false,
+    description: '넘버링 #9701 상품입니다. \n미개봉 새상품이에요!',
+    tags: ['넘버링', '진주목걸이'],
+    exchange: false,
+    size: 'free',
+    facetoface: true,
+    createdAt: 1698808010754,
+    hearts: [],
+  },
+  {
+    productId: 13,
+    userId: 'test',
+    productName: '젠틀몬스터 하이저 HEIZER',
+    imgs: ['1698808325403.png', '1698808325416.png'],
+    categories: ['액세서리', '아이웨어', '선글라스'],
+    count: '1회',
+    price: '230,000',
+    discount: false,
+    delivery: true,
+    description: '단시간 1회 착용했습니다. ',
+    tags: ['젠틀몬스터', 'gentlemonster', '하이저', 'Heizer', '젠몬선글라스'],
+    exchange: false,
+    size: 'free',
+    facetoface: true,
+    createdAt: 1698808325425,
+    hearts: [],
+  },
+  {
+    productId: 14,
+    userId: 'test',
+    productName: '샵엠 두오모 트위드',
+    imgs: ['1698808611101.png', '1698808611116.png'],
+    categories: ['여성의류', '아우터', '자켓'],
+    count: '5회 이상',
+    price: '200,000',
+    discount: false,
+    delivery: true,
+    description: '격식 차리는 날에 입기 좋습니다. 따뜻하고 생각보다 넉넉해요',
+    tags: ['샵엠', 'shopm', '두오모', '트위드'],
+    exchange: false,
+    size: 'm',
+    facetoface: true,
+    createdAt: 1698808611127,
+    hearts: [],
+  },
+  {
+    productId: 15,
+    userId: 'test',
+    productName: '남자 청바지 ',
+    imgs: ['1698808815998.png', '1698808816008.png'],
+    categories: ['남성의류', '바지', '데님'],
+    count: '2회',
+    price: '25,000',
+    discount: false,
+    delivery: false,
+    description: '옷장 정리하면서 싸게 내놓습니다. 오버핏에 편합니다.',
+    tags: ['청바지'],
+    exchange: false,
+    size: 'l',
+    facetoface: true,
+    createdAt: 1698808816016,
+    hearts: [],
+  },
+  {
+    productId: 16,
+    userId: 'test',
+    productName: '닥터마틴 1461',
+    imgs: ['1698808981245.png', '1698808981249.png'],
+    categories: ['신발', '플랫/로퍼', '플랫'],
+    count: '2회',
+    price: '170,000',
+    discount: false,
+    delivery: false,
+    description: '1회 착용',
+    tags: ['닥터마틴', '닥마', '닥터마틴1461'],
+    exchange: false,
+    size: '275',
+    facetoface: true,
+    createdAt: 1698808981253,
+    hearts: ['dkfud123', 'atom906', 'yucnid123', 'hera1423', 'starbucks'],
   },
 ];
 // 모든 게시글을 얻는 함수
@@ -211,15 +372,39 @@ const updateHearts = (productId, hearts) => {
 };
 
 // 인기상품
-const getPopulars = () =>
+const getPopulars = page =>
   products
-    .sort((a, b) => a.hearts.length - b.hearts.length)
+    .sort((a, b) => b.hearts.length - a.hearts.length)
+    .slice(8 * page, 8 * (page + 1))
     .map(product => ({
       productId: product.productId,
       productName: product.productName,
-      hearts: product.hearts,
       imgs: product.imgs,
     }));
+
+const getRecommend = () => {
+  let maxHeartsLength = 0;
+  let maxHeartsProduct = null;
+
+  for (const product of products) {
+    if (product.hearts.length > maxHeartsLength) {
+      maxHeartsLength = product.hearts.length;
+      maxHeartsProduct = {
+        productId: product.productId,
+        imgs: product.imgs,
+      };
+    }
+  }
+
+  return maxHeartsProduct;
+};
+
+const getRelated = () =>
+  products.slice(0, 5).map(product => ({
+    productId: product.productId,
+    productName: product.productName,
+    imgs: product.imgs,
+  }));
 
 module.exports = {
   getProducts,
@@ -230,4 +415,6 @@ module.exports = {
   deleteProduct,
   updateHearts,
   getPopulars,
+  getRecommend,
+  getRelated,
 };
