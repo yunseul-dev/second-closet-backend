@@ -669,22 +669,22 @@ const deleteProduct = productId => {
 };
 
 const findProductHearts = productId =>
-  products.filter(product => product.productId === productId).map(product => product.hearts);
+  products.filter(product => product.productId === +productId).map(product => product.hearts);
 
 // 찜 더하기
 const addHeart = (productId, userId) => {
   products = products.map(product =>
-    product.productId === +productId ? { ...product, hearts: [...hearts, userId] } : product,
+    product.productId === +productId ? { ...product, hearts: [...product.hearts, userId] } : product,
   );
 };
 
 // 찜 삭제
 const deleteHeart = (productId, userId) => {
-  const newHearts = [...findProductHearts(productId).filter(id => id !== +userId)];
+  const newHearts = findProductHearts(productId)
+    .flat()
+    .filter(id => id !== userId);
 
-  products = products.map(product =>
-    product.productId === +productId ? { ...product, hearts: [...newHearts] } : product,
-  );
+  products = products.map(product => (product.productId === +productId ? { ...product, hearts: newHearts } : product));
 };
 
 // 인기상품
