@@ -39,6 +39,23 @@ router.get('/recommend', (req, res) => {
   res.send(recommendProduct);
 });
 
+// 카테고리 별로 가져오기
+router.get('/category', (req, res) => {
+  const { category, page } = req.query;
+
+  let newProducts;
+
+  if (category.length === 1) {
+    newProducts = products.getFirstCategory(category, page);
+  } else if (category.length === 2) {
+    newProducts = products.getSecondCategory(category, page);
+  } else if (category.length === 3) {
+    newProducts = products.getThirdCategory(category, page);
+  }
+
+  res.send(newProducts);
+});
+
 router.get('/related', (req, res) => {
   const relatedProduct = products.getRelated();
 
@@ -112,11 +129,18 @@ router.post('/post', upload.array('photo'), (req, res) => {
 });
 
 // 찜 업데이트
-router.patch('/hearts/:productId', (req, res) => {
-  const { productId } = req.params;
-  const hearts = req.body;
+router.patch('/hearts/:productId/:userId', (req, res) => {
+  const { productId, userId } = req.params;
 
-  products.updateHearts(productId, hearts);
+  products.addHeart(productId, userId);
+
+  res.send(products);
+});
+
+router.delete('/hearts/:productId/:userId', (req, res) => {
+  const { productId, userId } = req.params;
+
+  products.deleteHeart(productId, userId);
 
   res.send(products);
 });

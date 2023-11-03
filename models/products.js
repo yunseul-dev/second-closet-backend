@@ -162,7 +162,7 @@ let products = [
     userId: 'test',
     productName: '락피쉬 웨더웨어 윈터 퍼 뮬 ',
     imgs: ['1698806809728.png', '1698806809750.png', '1698806809761.png'],
-    categories: ['신발', '슬리퍼/뮬', '뮬'],
+    categories: ['신발', '슬리퍼', '뮬'],
     count: '새상품',
     price: '45,000',
     discount: false,
@@ -216,7 +216,7 @@ let products = [
     size: 'free',
     facetoface: true,
     createdAt: 1698807500484,
-    hearts: [],
+    hearts: ['sunglasslover', 'test', 'photoism24', 'alskfl'],
   },
   {
     productId: 12,
@@ -252,7 +252,7 @@ let products = [
     size: 'free',
     facetoface: true,
     createdAt: 1698808325425,
-    hearts: [],
+    hearts: ['sunglasslover'],
   },
   {
     productId: 14,
@@ -270,7 +270,7 @@ let products = [
     size: 'm',
     facetoface: true,
     createdAt: 1698808611127,
-    hearts: [],
+    hearts: ['test', 'siddl333', 'alskfl'],
   },
   {
     productId: 15,
@@ -295,7 +295,7 @@ let products = [
     userId: 'test',
     productName: '닥터마틴 1461',
     imgs: ['1698808981245.png', '1698808981249.png'],
-    categories: ['신발', '플랫/로퍼', '플랫'],
+    categories: ['신발', '로퍼', '플랫'],
     count: '2회',
     price: '170,000',
     discount: false,
@@ -306,7 +306,7 @@ let products = [
     size: '275',
     facetoface: true,
     createdAt: 1698808981253,
-    hearts: ['dkfud123', 'atom906', 'yucnid123', 'hera1423', 'starbucks'],
+    hearts: ['dkfud123', 'atom906', 'yucnid123', 'hera1423', 'starbucks', 'hera2573'],
   },
   {
     productId: 17,
@@ -361,7 +361,7 @@ let products = [
     size: 'l',
     facetoface: true,
     createdAt: 1698850027545,
-    hearts: [],
+    hearts: ['hera2573'],
   },
   {
     productId: 20,
@@ -398,7 +398,7 @@ let products = [
     size: 's',
     facetoface: false,
     createdAt: 1698850630406,
-    hearts: [],
+    hearts: ['snldkdtm26', 'chocolate'],
   },
   {
     productId: 22,
@@ -417,7 +417,7 @@ let products = [
     size: 's',
     facetoface: false,
     createdAt: 1698850809532,
-    hearts: [],
+    hearts: ['chocolate'],
   },
   {
     productId: 23,
@@ -453,7 +453,7 @@ let products = [
     size: 's',
     facetoface: false,
     createdAt: 1698851187259,
-    hearts: ['photoism230'],
+    hearts: ['photoism230', 'prinxesseul'],
   },
   {
     productId: 25,
@@ -489,7 +489,7 @@ let products = [
     size: 'free',
     facetoface: false,
     createdAt: 1698851763732,
-    hearts: ['starbucks', 'test', 'testapp', 'photoism230'],
+    hearts: ['starbucks', 'test', 'testapp', 'photoism230', 'yunminaaa99', 'prinxesseul'],
   },
   {
     productId: 27,
@@ -508,6 +508,107 @@ let products = [
     facetoface: false,
     createdAt: 1698852838694,
     hearts: ['starbucks', 'test', 'testapp'],
+  },
+  {
+    productId: 28,
+    userId: 'test',
+    productName: '시야주 레더 크롭 자켓',
+    imgs: ['1698855568775.png', '1698855568790.png', '1698855568798.png'],
+    categories: ['여성의류', '아우터', '자켓'],
+    count: '2회',
+    price: '99,000',
+    discount: false,
+    delivery: false,
+    description: '시야주 Fake Leather Crop JK_Black 자켓입니다. ',
+    tags: ['시야주', '레더크롭자켓', '레더'],
+    exchange: false,
+    size: 'm',
+    facetoface: true,
+    createdAt: 1698855568807,
+    hearts: ['yunmina', 'photoism', 'test'],
+  },
+  {
+    productId: 29,
+    userId: 'test',
+    productName: '파사드패턴 오버핏 레더재킷',
+    imgs: ['1698859426525.png', '1698859426533.png', '1698859426540.png'],
+    categories: ['여성의류', '아우터', '자켓'],
+    count: '3회',
+    price: '178,000',
+    discount: false,
+    delivery: false,
+    description: '예쁜 레더자켓입니다. 브라운 색상이에요. 오버핏이라 편하게 입으실 수 있어요.',
+    tags: ['파사드패턴', '레더자켓', '브라운'],
+    exchange: false,
+    size: 's',
+    facetoface: false,
+    createdAt: 1698859426552,
+    hearts: [],
+  },
+  {
+    productId: 30,
+    userId: 'test',
+    productName: '세인트제임스 데님자켓',
+    imgs: ['1698859620702.png'],
+    categories: ['여성의류', '아우터', '자켓'],
+    count: '3회',
+    price: '230,000',
+    discount: true,
+    delivery: false,
+    description: '라이트 그레이 색상입니다. \n드라이클리닝 해뒀습니다. ',
+    tags: ['세인트제임스', '데님자켓'],
+    exchange: false,
+    size: 'm',
+    facetoface: false,
+    createdAt: 1698859620707,
+    hearts: ['test', 'starbucks', 'kimchi27'],
+  },
+  {
+    productId: 31,
+    userId: 'test',
+    productName: '던스트 숏코트',
+    imgs: ['1698859927822.png', '1698859927836.png'],
+    categories: ['여성의류', '아우터', '코트'],
+    count: '2회',
+    price: '320,000',
+    discount: false,
+    delivery: false,
+    description: '상품명 CROPPED DUFFLE COAT CHARCOAL 입니다.\n미니 떡볶이 코트 느낌이에요. 아주 귀엽습니다',
+    tags: ['던스트', '크롭코트'],
+    exchange: false,
+    size: 's',
+    facetoface: false,
+    createdAt: 1698859927845,
+    hearts: [
+      'mandoo11',
+      'starbucks',
+      'siddl333',
+      'alskfl',
+      'wooseung',
+      'zzzang9',
+      'photoism',
+      'yunminaaa99',
+      'prinxesseul',
+      'hera1423',
+    ],
+  },
+  {
+    productId: 32,
+    userId: 'test',
+    productName: '룩캐스트 Mary Half Wool Coat',
+    imgs: ['1698860156301.png', '1698860156311.png'],
+    categories: ['여성의류', '아우터', '코트'],
+    count: '5회 이상',
+    price: '190,000',
+    discount: false,
+    delivery: false,
+    description: '예쁜 버터 색상이에요. 밝은 색상이다보니 새상품 느낌은 아니라 저렴하게 내놨어요.',
+    tags: ['룩캐스트', '하프코트'],
+    exchange: false,
+    size: 'free',
+    facetoface: false,
+    createdAt: 1698860156320,
+    hearts: ['starbucks', 'siddl333', 'yunmina', 'photoism', 'yunminaaa99', 'prinxesseul'],
   },
 ];
 // 모든 게시글을 얻는 함수
@@ -567,9 +668,23 @@ const deleteProduct = productId => {
   products = products.filter(product => product.productId !== productId);
 };
 
-// 찜 클릭
-const updateHearts = (productId, hearts) => {
-  products = products.map(product => (product.productId === +productId ? { ...product, hearts: hearts } : product));
+const findProductHearts = productId =>
+  products.filter(product => product.productId === productId).map(product => product.hearts);
+
+// 찜 더하기
+const addHeart = (productId, userId) => {
+  products = products.map(product =>
+    product.productId === +productId ? { ...product, hearts: [...hearts, userId] } : product,
+  );
+};
+
+// 찜 삭제
+const deleteHeart = (productId, userId) => {
+  const newHearts = [...findProductHearts(productId).filter(id => id !== +userId)];
+
+  products = products.map(product =>
+    product.productId === +productId ? { ...product, hearts: [...newHearts] } : product,
+  );
 };
 
 // 인기상품
@@ -577,23 +692,78 @@ const getPopulars = page => {
   const startIdx = 8 * page;
   const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
 
-  console.log('here: ', page, startIdx, endIdx);
-  const populars = products
-    .sort((a, b) => {
-      if (b.hearts.length - a.hearts.length === 0) {
-        return a.productName.localeCompare(b.productName);
-      } else {
-        return b.hearts.length - a.hearts.length;
-      }
-    })
-    .slice(startIdx, endIdx)
+  return products
     .map(product => ({
       productId: product.productId,
       productName: product.productName,
       imgs: product.imgs,
-    }));
+      hearts: product.hearts.length,
+      price: product.price,
+    }))
+    .sort((a, b) => {
+      if (b.hearts - a.hearts === 0) {
+        return a.productName.localeCompare(b.productName);
+      } else {
+        return b.hearts - a.hearts;
+      }
+    })
+    .slice(startIdx, endIdx);
+};
 
-  return populars;
+const getFirstCategory = (category, page) => {
+  const startIdx = 8 * page;
+  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
+
+  return products
+    .filter(product => product.categories[0] === category[0])
+    .map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      imgs: product.imgs,
+      price: product.price,
+      createdAt: product.createdAt,
+    }))
+    .slice(startIdx, endIdx)
+    .reverse();
+};
+
+const getSecondCategory = (category, page) => {
+  const startIdx = 8 * page;
+  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
+
+  return products
+    .filter(product => product.categories[0] === category[0] && product.categories[1] === category[1])
+    .map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      imgs: product.imgs,
+      price: product.price,
+      createdAt: product.createdAt,
+    }))
+    .slice(startIdx, endIdx)
+    .reverse();
+};
+
+const getThirdCategory = (category, page) => {
+  const startIdx = 8 * page;
+  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
+
+  return products
+    .filter(
+      product =>
+        product.categories[0] === category[0] &&
+        product.categories[1] === category[1] &&
+        product.categories[2] === category[2],
+    )
+    .map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      imgs: product.imgs,
+      price: product.price,
+      createdAt: product.createdAt,
+    }))
+    .slice(startIdx, endIdx)
+    .reverse();
 };
 
 const getRecommend = () => {
@@ -627,8 +797,12 @@ module.exports = {
   createProductId,
   createProduct,
   deleteProduct,
-  updateHearts,
+  addHeart,
+  deleteHeart,
   getPopulars,
   getRecommend,
   getRelated,
+  getFirstCategory,
+  getSecondCategory,
+  getThirdCategory,
 };
