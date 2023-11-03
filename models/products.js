@@ -783,12 +783,17 @@ const getRecommend = () => {
   return maxHeartsProduct;
 };
 
-const getRelated = () =>
-  products.slice(0, 5).map(product => ({
+const getRelated = (productId, category) => {
+  const filteredProducts = products.filter(
+    product => product.productId !== +productId && product.categories.includes(category),
+  );
+
+  return filteredProducts.slice(0, Math.min(filteredProducts.length, 5)).map(product => ({
     productId: product.productId,
     productName: product.productName,
     imgs: product.imgs,
   }));
+};
 
 module.exports = {
   getProducts,

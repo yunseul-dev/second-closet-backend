@@ -56,8 +56,9 @@ router.get('/category', (req, res) => {
   res.send(newProducts);
 });
 
-router.get('/related', (req, res) => {
-  const relatedProduct = products.getRelated();
+router.get('/related/:productId/:category', (req, res) => {
+  const { productId, category } = req.params;
+  const relatedProduct = products.getRelated(productId, category);
 
   res.send(relatedProduct);
 });
