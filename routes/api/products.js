@@ -41,17 +41,10 @@ router.get('/recommend', (req, res) => {
 
 // 카테고리 별로 가져오기
 router.get('/category', (req, res) => {
+  const sortOption = req.query.sort;
   const { category, page } = req.query;
 
-  let newProducts;
-
-  if (category.length === 1) {
-    newProducts = products.getFirstCategory(category, page);
-  } else if (category.length === 2) {
-    newProducts = products.getSecondCategory(category, page);
-  } else if (category.length === 3) {
-    newProducts = products.getThirdCategory(category, page);
-  }
+  const newProducts = products.getCategory(category, page, sortOption);
 
   res.send(newProducts);
 });

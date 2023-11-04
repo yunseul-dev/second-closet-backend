@@ -710,60 +710,82 @@ const getPopulars = page => {
     .slice(startIdx, endIdx);
 };
 
-const getFirstCategory = (category, page) => {
+const getCategory = (category, page, sortOptions) => {
   const startIdx = 8 * page;
   const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
 
-  return products
-    .filter(product => product.categories[0] === category[0])
-    .map(product => ({
-      productId: product.productId,
-      productName: product.productName,
-      imgs: product.imgs,
-      price: product.price,
-      createdAt: product.createdAt,
-    }))
-    .slice(startIdx, endIdx)
-    .reverse();
-};
+  let notSortedProducts;
 
-const getSecondCategory = (category, page) => {
-  const startIdx = 8 * page;
-  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
+  if (category.length === 1) {
+    notSortedProducts = products
+      .filter(product => product.categories[0] === category[0])
+      .map(product => ({
+        productId: product.productId,
+        productName: product.productName,
+        imgs: product.imgs,
+        price: product.price,
+        createdAt: product.createdAt,
+      }));
+  } else if (category.length === 2) {
+    notSortedProducts = products
+      .filter(product => product.categories[0] === category[0] && product.categories[1] === category[1])
+      .map(product => ({
+        productId: product.productId,
+        productName: product.productName,
+        imgs: product.imgs,
+        price: product.price,
+        createdAt: product.createdAt,
+      }));
+  } else if (category.length === 3) {
+    notSortedProducts = products
+      .filter(
+        product =>
+          product.categories[0] === category[0] &&
+          product.categories[1] === category[1] &&
+          product.categories[2] === category[2],
+      )
+      .map(product => ({
+        productId: product.productId,
+        productName: product.productName,
+        imgs: product.imgs,
+        price: product.price,
+        createdAt: product.createdAt,
+      }));
+  }
 
-  return products
-    .filter(product => product.categories[0] === category[0] && product.categories[1] === category[1])
-    .map(product => ({
-      productId: product.productId,
-      productName: product.productName,
-      imgs: product.imgs,
-      price: product.price,
-      createdAt: product.createdAt,
-    }))
-    .slice(startIdx, endIdx)
-    .reverse();
-};
-
-const getThirdCategory = (category, page) => {
-  const startIdx = 8 * page;
-  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
-
-  return products
-    .filter(
-      product =>
-        product.categories[0] === category[0] &&
-        product.categories[1] === category[1] &&
-        product.categories[2] === category[2],
-    )
-    .map(product => ({
-      productId: product.productId,
-      productName: product.productName,
-      imgs: product.imgs,
-      price: product.price,
-      createdAt: product.createdAt,
-    }))
-    .slice(startIdx, endIdx)
-    .reverse();
+  if (sortOptions === 'latest') {
+    return notSortedProducts.reverse().slice(startIdx, endIdx);
+  } else if (sortOptions === 'popular') {
+    return notSortedProducts
+      .sort((a, b) => {
+        if (b.hearts - a.hearts === 0) {
+          return a.productName.localeCompare(b.productName);
+        } else {
+          return b.hearts - a.hearts;
+        }
+      })
+      .slice(startIdx, endIdx);
+  } else if (sortOptions === 'highPrice') {
+    return notSortedProducts
+      .sort((a, b) => {
+        if (parseInt(b.price.replace(',', '')) - parseInt(a.price.replace(',', '')) === 0) {
+          return a.productName.localeCompare(b.productName);
+        } else {
+          return b.price.replace(',', '') - parseInt(a.price.replace(',', ''));
+        }
+      })
+      .slice(startIdx, endIdx);
+  } else if (sortOptions === 'lowPrice') {
+    return notSortedProducts
+      .sort((a, b) => {
+        if (parseInt(a.price.replace(',', '')) - parseInt(b.price.replace(',', '')) === 0) {
+          return a.productName.localeCompare(b.productName);
+        } else {
+          return a.price.replace(',', '') - parseInt(b.price.replace(',', ''));
+        }
+      })
+      .slice(startIdx, endIdx);
+  }
 };
 
 const getRecommend = () => {
@@ -807,7 +829,5 @@ module.exports = {
   getPopulars,
   getRecommend,
   getRelated,
-  getFirstCategory,
-  getSecondCategory,
-  getThirdCategory,
+  getCategory,
 };
