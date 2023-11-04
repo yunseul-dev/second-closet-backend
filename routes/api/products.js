@@ -4,7 +4,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
-const products = require('../../models/products');
+const products = require('../../models/controllers/productController');
 
 try {
   if (!fs.existsSync('uploads')) {

@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const users = require('../../models/users');
+// const users = require('../../models/users');
+const users = require('../../models/controllers/userController');
 
 router.get('/verify', (req, res) => {
   const accessToken = req.cookies.accessToken;
