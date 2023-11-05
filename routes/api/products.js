@@ -49,6 +49,16 @@ router.get('/category', (req, res) => {
   res.send(newProducts);
 });
 
+// user의 마이페이지
+router.get('/myproducts', (req, res) => {
+  const sortOption = req.query.sort;
+  const { userId, page } = req.query;
+
+  const newProducts = products.getMyProducts(userId, page, sortOption);
+
+  res.send(newProducts);
+});
+
 router.get('/related/:productId/:category', (req, res) => {
   const { productId, category } = req.params;
   const relatedProduct = products.getRelated(productId, category);

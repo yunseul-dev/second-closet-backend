@@ -44,19 +44,6 @@ const createProduct = (
   ];
 };
 
-// user의 게시글을 찾는 함수
-const findProductByUserId = userId =>
-  products
-    .filter(product => product.userId === userId)
-    .map(product => ({
-      productId: product.productId,
-      productName: product.productName,
-      imgs: product.imgs,
-      price: product.price,
-      createdAt: product.createdAt,
-      sold: product.sold,
-    }));
-
 // productId로 해당 게시물을 찾는 함수.
 const findProductById = productId => products.filter(product => product.productId === +productId);
 
@@ -199,16 +186,33 @@ const getRelated = (productId, category) => {
   }));
 };
 
+// user의 게시글을 찾는 함수
+const findProductByUserId = userId => {
+  return products
+    .filter(item => item.userId === userId)
+    .map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      imgs: product.imgs,
+      price: product.price,
+      createdAt: product.createdAt,
+      sold: product.sold,
+    }));
+};
+
 // 내 상품(sort별)
-const getMyProducts = (userId, sortOption) => {
-  const myProducts = findProductByUserId(userId);
+const getMyProducts = (userId, page, sortOption) => {
+  const startIdx = 8 * page;
+  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
+
+  let myProducts = findProductByUserId(userId);
 
   if (sortOption === 'all') {
-    return myProducts;
+    return myProducts.slice(startIdx, endIdx);
   } else if (sortOption === 'sold') {
-    return myProducts.filter(product => product.sold === true);
+    return myProducts.filter(product => product.sold === true).slice(startIdx, endIdx);
   } else if (sortOption === 'notSold') {
-    return myProducts.filter(product => product.sold !== true);
+    return myProducts.filter(product => product.sold === false).slice(startIdx, endIdx);
   }
 };
 
