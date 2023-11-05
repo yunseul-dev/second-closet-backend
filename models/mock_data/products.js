@@ -16,7 +16,8 @@ let products = [
     size: 's',
     facetoface: false,
     createdAt: 1698573139456,
-    hearts: ['siddl333', 'alskfl', 'starbucks', 'chocolate'],
+    hearts: ['siddl333', 'alskfl', 'starbucks', 'chocolate', 'notdd290'],
+    sold: false,
   },
   {
     productId: 2,
@@ -35,6 +36,7 @@ let products = [
     facetoface: true,
     createdAt: 1698660867528,
     hearts: ['siddl333', 'alskfl', 'starbucks', 'chocolate', 'nikelover'],
+    sold: false,
   },
   {
     productId: 3,
@@ -54,6 +56,7 @@ let products = [
     facetoface: false,
     createdAt: 1698644587744,
     hearts: ['siddl333', 'starbucks', 'yunmina'],
+    sold: false,
   },
   {
     productId: 4,
@@ -72,6 +75,7 @@ let products = [
     facetoface: true,
     createdAt: 1698644917171,
     hearts: ['siddl333', 'alskfl', 'starbucks', 'chocolate', 'yunseul'],
+    sold: false,
   },
   {
     productId: 5,
@@ -91,6 +95,7 @@ let products = [
     facetoface: true,
     createdAt: 1698645496732,
     hearts: ['siddl333', 'starbucks', 'chocolate', 'photoism', 'harufilm33', 'iphone15', 'doongee92'],
+    sold: false,
   },
   {
     productId: 6,
@@ -109,6 +114,7 @@ let products = [
     facetoface: true,
     createdAt: 1698646873154,
     hearts: ['alskfl'],
+    sold: true,
   },
   {
     productId: 7,
@@ -136,7 +142,11 @@ let products = [
       'iphone15',
       'flanwls88',
       'dkfud123',
+      'dadoset78',
+      'notdd29',
+      'wordwide61',
     ],
+    sold: false,
   },
   {
     productId: 8,
@@ -155,7 +165,20 @@ let products = [
     size: 'free',
     facetoface: true,
     createdAt: 1698661114300,
-    hearts: ['alskfl', 'wooseung', 'zzzang9', 'photoism', 'yunminaaa99', 'prinxesseul', 'hera1423', 'starbucks'],
+    hearts: [
+      'alskfl',
+      'wooseung',
+      'zzzang9',
+      'dadoset78',
+      'photoism',
+      'yunminaaa99',
+      'prinxesseul',
+      'hera1423',
+      'starbucks',
+      'heart31',
+      'jaejae33',
+    ],
+    sold: false,
   },
   {
     productId: 9,
@@ -174,6 +197,7 @@ let products = [
     facetoface: false,
     createdAt: 1698806809773,
     hearts: ['dkfud123', 'hera1423', 'starbucks'],
+    sold: true,
   },
   {
     productId: 10,
@@ -192,6 +216,7 @@ let products = [
     facetoface: false,
     createdAt: 1698807159345,
     hearts: ['siddl333', 'dkfud123', 'hera1423', 'starbucks'],
+    sold: false,
   },
   {
     productId: 11,
@@ -216,7 +241,8 @@ let products = [
     size: 'free',
     facetoface: true,
     createdAt: 1698807500484,
-    hearts: ['sunglasslover', 'test', 'photoism24', 'alskfl'],
+    hearts: ['sunglasslover', 'test', 'photoism24', 'alskfl', 'haehae31'],
+    sold: true,
   },
   {
     productId: 12,
@@ -235,6 +261,7 @@ let products = [
     facetoface: true,
     createdAt: 1698808010754,
     hearts: [],
+    sold: false,
   },
   {
     productId: 13,
@@ -252,7 +279,8 @@ let products = [
     size: 'free',
     facetoface: true,
     createdAt: 1698808325425,
-    hearts: ['sunglasslover'],
+    hearts: ['sunglasslover', 'alskfl', 'test'],
+    sold: false,
   },
   {
     productId: 14,
@@ -271,6 +299,7 @@ let products = [
     facetoface: true,
     createdAt: 1698808611127,
     hearts: ['test', 'siddl333', 'alskfl'],
+    sold: false,
   },
   {
     productId: 15,
@@ -288,7 +317,8 @@ let products = [
     size: 'l',
     facetoface: true,
     createdAt: 1698808816016,
-    hearts: ['test'],
+    hearts: ['test', 'alskfl'],
+    sold: false,
   },
   {
     productId: 16,
@@ -306,7 +336,8 @@ let products = [
     size: '275',
     facetoface: true,
     createdAt: 1698808981253,
-    hearts: ['dkfud123', 'atom906', 'yucnid123', 'hera1423', 'starbucks', 'hera2573'],
+    hearts: ['dkfud123', 'atom906', 'yucnid123', 'hera1423', 'starbucks', 'hera2573', 'alskfl', 'jaejae31'],
+    sold: true,
   },
   {
     productId: 17,
@@ -325,6 +356,7 @@ let products = [
     facetoface: true,
     createdAt: 1698849586300,
     hearts: ['dkfud123', 'atom906', 'yucnid123', 'hera1423', 'starbucks', 'test'],
+    sold: false,
   },
   {
     productId: 18,
@@ -343,6 +375,7 @@ let products = [
     facetoface: false,
     createdAt: 1698849742051,
     hearts: [],
+    sold: false,
   },
   {
     productId: 19,
@@ -361,7 +394,8 @@ let products = [
     size: 'l',
     facetoface: true,
     createdAt: 1698850027545,
-    hearts: ['hera2573'],
+    hearts: ['hera2573', 'staff212'],
+    sold: false,
   },
   {
     productId: 20,
@@ -380,6 +414,7 @@ let products = [
     facetoface: false,
     createdAt: 1698850336747,
     hearts: [],
+    sold: false,
   },
   {
     productId: 21,
@@ -399,6 +434,7 @@ let products = [
     facetoface: false,
     createdAt: 1698850630406,
     hearts: ['snldkdtm26', 'chocolate'],
+    sold: false,
   },
   {
     productId: 22,
@@ -417,7 +453,8 @@ let products = [
     size: 's',
     facetoface: false,
     createdAt: 1698850809532,
-    hearts: ['chocolate'],
+    hearts: ['chocolate', 'yojibudong22'],
+    sold: false,
   },
   {
     productId: 23,
@@ -436,6 +473,7 @@ let products = [
     facetoface: false,
     createdAt: 1698850999275,
     hearts: [],
+    sold: false,
   },
   {
     productId: 24,
@@ -454,6 +492,7 @@ let products = [
     facetoface: false,
     createdAt: 1698851187259,
     hearts: ['photoism230', 'prinxesseul'],
+    sold: false,
   },
   {
     productId: 25,
@@ -472,6 +511,7 @@ let products = [
     facetoface: false,
     createdAt: 1698851507714,
     hearts: [],
+    sold: false,
   },
   {
     productId: 26,
@@ -490,6 +530,7 @@ let products = [
     facetoface: false,
     createdAt: 1698851763732,
     hearts: ['starbucks', 'test', 'testapp', 'photoism230', 'yunminaaa99', 'prinxesseul'],
+    sold: false,
   },
   {
     productId: 27,
@@ -508,6 +549,7 @@ let products = [
     facetoface: false,
     createdAt: 1698852838694,
     hearts: ['starbucks', 'test', 'testapp'],
+    sold: false,
   },
   {
     productId: 28,
@@ -526,6 +568,7 @@ let products = [
     facetoface: true,
     createdAt: 1698855568807,
     hearts: ['yunmina', 'photoism', 'test'],
+    sold: true,
   },
   {
     productId: 29,
@@ -544,6 +587,7 @@ let products = [
     facetoface: false,
     createdAt: 1698859426552,
     hearts: [],
+    sold: false,
   },
   {
     productId: 30,
@@ -562,6 +606,7 @@ let products = [
     facetoface: false,
     createdAt: 1698859620707,
     hearts: ['test', 'starbucks', 'kimchi27'],
+    sold: false,
   },
   {
     productId: 31,
@@ -591,6 +636,7 @@ let products = [
       'prinxesseul',
       'hera1423',
     ],
+    sold: false,
   },
   {
     productId: 32,
@@ -608,7 +654,8 @@ let products = [
     size: 'free',
     facetoface: false,
     createdAt: 1698860156320,
-    hearts: ['starbucks', 'siddl333', 'yunmina', 'photoism', 'yunminaaa99', 'prinxesseul'],
+    hearts: ['starbucks', 'siddl333', 'yunmina', 'photoism', 'yunminaaa99', 'prinxesseul', 'jaejae39'],
+    sold: false,
   },
 ];
 
