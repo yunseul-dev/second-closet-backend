@@ -45,7 +45,17 @@ const createProduct = (
 };
 
 // user의 게시글을 찾는 함수
-const findProductByUserId = userId => products.filter(product => product.userId === userId);
+const findProductByUserId = userId =>
+  products
+    .filter(product => product.userId === userId)
+    .map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      imgs: product.imgs,
+      price: product.price,
+      createdAt: product.createdAt,
+      sold: product.sold,
+    }));
 
 // productId로 해당 게시물을 찾는 함수.
 const findProductById = productId => products.filter(product => product.productId === +productId);
@@ -102,6 +112,7 @@ const getPopulars = page => {
     .slice(startIdx, endIdx);
 };
 
+//  카테고리별 상품
 const getCategory = (category, page, sortOptions) => {
   const startIdx = 8 * page;
   const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
@@ -155,11 +166,14 @@ const getCategory = (category, page, sortOptions) => {
   return notSortedProducts.slice(startIdx, endIdx);
 };
 
+// 오늘의 추천상품
 const getRecommend = () => {
   let maxHeartsLength = 0;
   let maxHeartsProduct = null;
 
-  for (const product of products) {
+  const filteredProducts = products.filter(product => product.sold !== true);
+
+  for (const product of filteredProducts) {
     if (product.hearts.length > maxHeartsLength) {
       maxHeartsLength = product.hearts.length;
       maxHeartsProduct = {
@@ -172,6 +186,7 @@ const getRecommend = () => {
   return maxHeartsProduct;
 };
 
+// 연관상품
 const getRelated = (productId, category) => {
   const filteredProducts = products.filter(
     product => product.productId !== +productId && product.categories.includes(category) && product.sold !== true,
@@ -182,6 +197,19 @@ const getRelated = (productId, category) => {
     productName: product.productName,
     imgs: product.imgs,
   }));
+};
+
+// 내 상품(sort별)
+const getMyProducts = (userId, sortOption) => {
+  const myProducts = findProductByUserId(userId);
+
+  if (sortOption === 'all') {
+    return myProducts;
+  } else if (sortOption === 'sold') {
+    return myProducts.filter(product => product.sold === true);
+  } else if (sortOption === 'notSold') {
+    return myProducts.filter(product => product.sold !== true);
+  }
 };
 
 module.exports = {
@@ -197,4 +225,5 @@ module.exports = {
   getRecommend,
   getRelated,
   getCategory,
+  getMyProducts,
 };
