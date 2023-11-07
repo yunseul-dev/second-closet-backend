@@ -59,6 +59,15 @@ router.get('/myproducts', (req, res) => {
   res.send(newProducts);
 });
 
+router.get('/myhearts', (req, res) => {
+  const sortOption = req.query.sort;
+  const { userId, page } = req.query;
+
+  const newProducts = products.getMyHearts(userId, page, sortOption);
+
+  res.send(newProducts);
+});
+
 router.get('/related/:productId/:category', (req, res) => {
   const { productId, category } = req.params;
   const relatedProduct = products.getRelated(productId, category);
