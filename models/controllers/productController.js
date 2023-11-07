@@ -189,12 +189,14 @@ const getRelated = (productId, category) => {
 // user의 게시글을 찾는 함수
 const findProductByUserId = userId => {
   return products
-    .filter(item => item.userId === userId)
+    .filter(product => product.userId === userId)
     .map(product => ({
       productId: product.productId,
       productName: product.productName,
       imgs: product.imgs,
       price: product.price,
+      delivery: product.delivery,
+      hearts: product.hearts.length,
       createdAt: product.createdAt,
       sold: product.sold,
     }));
@@ -202,10 +204,42 @@ const findProductByUserId = userId => {
 
 // 내 상품(sort별)
 const getMyProducts = (userId, page, sortOption) => {
-  const startIdx = 8 * page;
-  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
-
   let myProducts = findProductByUserId(userId);
+
+  const startIdx = 4 * page;
+  const endIdx = startIdx + 4 <= products.length ? startIdx + 4 : products.length;
+
+  if (sortOption === 'all') {
+    return myProducts.slice(startIdx, endIdx);
+  } else if (sortOption === 'sold') {
+    return myProducts.filter(product => product.sold === true).slice(startIdx, endIdx);
+  } else if (sortOption === 'notSold') {
+    return myProducts.filter(product => product.sold === false).slice(startIdx, endIdx);
+  }
+};
+
+// user의 찜한 게시물을 찾는 함수
+const findHeartsByUserId = userId => {
+  return products
+    .filter(product => product.hearts.includes(userId))
+    .map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      imgs: product.imgs,
+      price: product.price,
+      delivery: product.delivery,
+      hearts: product.hearts,
+      createdAt: product.createdAt,
+      sold: product.sold,
+    }));
+};
+
+// 나의 하트(Sort)
+const getMyHearts = (userId, page, sortOption) => {
+  let myProducts = findHeartsByUserId(userId);
+
+  const startIdx = 4 * page;
+  const endIdx = startIdx + 4 <= products.length ? startIdx + 4 : products.length;
 
   if (sortOption === 'all') {
     return myProducts.slice(startIdx, endIdx);
@@ -230,4 +264,5 @@ module.exports = {
   getRelated,
   getCategory,
   getMyProducts,
+  getMyHearts,
 };
