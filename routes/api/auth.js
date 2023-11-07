@@ -48,4 +48,10 @@ router.post('/signup', (req, res) => {
   res.send({ userid, name: newUser.name });
 });
 
+router.get('/signout', (req, res) => {
+  res.clearCookie('accessToken');
+
+  res.send({ isLogin: false });
+});
+
 module.exports = router;
