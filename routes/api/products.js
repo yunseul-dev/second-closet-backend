@@ -178,4 +178,12 @@ router.delete('/hearts/:productId/:userId', (req, res) => {
   res.send(products);
 });
 
+router.delete('/delete/:productId', (req, res) => {
+  const { productId } = req.params;
+
+  products.deleteProduct(productId);
+
+  res.sendStatus(200);
+});
+
 module.exports = router;
