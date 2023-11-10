@@ -66,7 +66,11 @@ const createProductId = () => (products.length ? Math.max(...products.map(produc
 
 // 게시글 삭제
 const deleteProduct = productId => {
-  products = products.filter(product => product.productId !== productId);
+  const imgs = products.find(product => product.productId === +productId).imgs;
+
+  imgs.forEach(img => deleteFile(img));
+
+  products = products.filter(product => product.productId !== +productId);
 };
 
 // 찜 개수 찾기
