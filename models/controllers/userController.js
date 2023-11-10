@@ -14,6 +14,7 @@ const createUser = (userId, password) => {
       userName: userId,
       password: password,
       address: '',
+      account: '',
       myHeart: [],
       myProduct: [],
     },
