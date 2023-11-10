@@ -1,5 +1,4 @@
 const express = require('express');
-// const users = require('../../models/users');
 const users = require('../../models/controllers/userController');
 
 const router = express.Router();
@@ -14,6 +13,8 @@ router.patch('/personalInfo/:userId', (req, res) => {
   const userInfo = req.body;
 
   users.updateUserInfo(userId, userInfo);
+
+  res.sendStatus(200);
 });
 
 module.exports = router;
