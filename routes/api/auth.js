@@ -38,15 +38,15 @@ router.post('/signin', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-  const { userid, password } = req.body;
+  const { userId, password } = req.body;
 
-  const user = users.findUserById(userid);
+  const user = users.findUserById(userId);
   if (user) return res.status(409).send('중복된 사용자가 존재합니다.');
 
-  users.createUser(userid, password);
-  const newUser = users.findUserById(userid);
+  users.createUser(userId, password);
+  const newUser = users.findUserById(userId);
 
-  res.send({ userid, name: newUser.name });
+  res.send({ userId, name: newUser.name });
 });
 
 router.get('/signout', (req, res) => {
