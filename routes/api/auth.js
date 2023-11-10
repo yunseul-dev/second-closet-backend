@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 // const users = require('../../models/users');
 const users = require('../../models/controllers/userController');
+const products = require('../../models/controllers/productController');
 
 router.get('/verify', (req, res) => {
   const accessToken = req.cookies.accessToken;
@@ -50,6 +51,16 @@ router.post('/signup', (req, res) => {
 
 router.get('/signout', (req, res) => {
   res.clearCookie('accessToken');
+
+  res.send({ isLogin: false });
+});
+
+router.delete('/withdraw/:userId', (req, res) => {
+  const { userId } = req.params;
+
+  res.clearCookie('accessToken');
+  users.deleteUser(userId);
+  products.deleteProductsByUserId(userId);
 
   res.send({ isLogin: false });
 });
