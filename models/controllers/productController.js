@@ -1,5 +1,19 @@
 let products = require('../mock_data/products');
 
+const fs = require('fs');
+const path = require('path');
+
+const deleteFile = filename => {
+  const filePath = path.join(process.cwd(), 'uploads', filename);
+
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+    console.log(`File ${filename} has been deleted.`);
+  } else {
+    console.error(`File ${filename} not found.`);
+  }
+};
+
 // 모든 게시글을 얻는 함수
 const getProducts = () => products;
 
@@ -250,7 +264,12 @@ const getMyHearts = (userId, page, sortOption) => {
   }
 };
 
+const updateProduct = (productId, newProduct) => {
+  products = products.map(product => (product.productId === +productId ? { ...product, ...newProduct } : product));
+};
+
 module.exports = {
+  deleteFile,
   getProducts,
   findProductByUserId,
   findProductById,
@@ -265,4 +284,5 @@ module.exports = {
   getCategory,
   getMyProducts,
   getMyHearts,
+  updateProduct,
 };
