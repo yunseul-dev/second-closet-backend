@@ -9,4 +9,11 @@ router.get('/', (req, res) => {
   res.send(user);
 });
 
+router.patch('/personalInfo/:userId', (req, res) => {
+  const { userId } = req.params;
+  const userInfo = req.body;
+
+  users.updateUserInfo(userId, userInfo);
+});
+
 module.exports = router;

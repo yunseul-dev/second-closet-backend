@@ -27,4 +27,8 @@ const deleteUser = userId => {
   users = users.filter(user => user.userId !== userId);
 };
 
-module.exports = { createUser, findUserById, findUser, getUsers, deleteUser };
+const updateUserInfo = (userId, userInfo) => {
+  users = users.map(user => (user.userId === userId ? { ...user, ...userInfo } : user));
+};
+
+module.exports = { createUser, findUserById, findUser, getUsers, deleteUser, updateUserInfo };
