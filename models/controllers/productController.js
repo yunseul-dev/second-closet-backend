@@ -272,6 +272,17 @@ const updateProduct = (productId, newProduct) => {
   products = products.map(product => (product.productId === +productId ? { ...product, ...newProduct } : product));
 };
 
+const deleteProductsByUserId = userId => {
+  const imgs = products
+    .filter(product => product.userId === userId)
+    .map(product => product.imgs)
+    .flat();
+
+  imgs.forEach(img => deleteFile(img));
+
+  products = products.filter(product => product.userId !== userId);
+};
+
 module.exports = {
   deleteFile,
   getProducts,
@@ -289,4 +300,5 @@ module.exports = {
   getMyProducts,
   getMyHearts,
   updateProduct,
+  deleteProductsByUserId,
 };
