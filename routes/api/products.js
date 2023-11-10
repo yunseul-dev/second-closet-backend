@@ -141,6 +141,26 @@ router.post('/post', upload.array('photo'), (req, res) => {
   res.sendStatus(200);
 });
 
+// 상품 수정
+router.patch('/edit/:productId', upload.array('photo'), (req, res) => {
+  const newProduct = JSON.parse(req.body.data);
+  const { productId } = req.params;
+
+  // newProduct.imgs[0] = existImgs
+  // newProduct.imgs[1] = deleteImgs
+  if (newProduct.imgs[1]) {
+    newProduct.imgs[1].forEach(img => products.deleteFile(img));
+  }
+
+  const imgs = req.files.map(file => file.filename);
+
+  newProduct.imgs = [...newProduct.imgs[0], ...imgs];
+
+  products.updateProduct(productId, newProduct);
+
+  res.sendStatus(200);
+});
+
 // 찜 업데이트
 router.patch('/hearts/:productId/:userId', (req, res) => {
   const { productId, userId } = req.params;
