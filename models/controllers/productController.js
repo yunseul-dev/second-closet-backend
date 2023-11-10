@@ -222,7 +222,7 @@ const findProductByUserId = userId => {
 
 // 내 상품(sort별)
 const getMyProducts = (userId, page, sortOption) => {
-  let myProducts = findProductByUserId(userId);
+  let myProducts = findProductByUserId(userId).reverse();
 
   const startIdx = 4 * page;
   const endIdx = startIdx + 4 <= products.length ? startIdx + 4 : products.length;
@@ -254,7 +254,7 @@ const findHeartsByUserId = userId => {
 
 // 나의 하트(Sort)
 const getMyHearts = (userId, page, sortOption) => {
-  let myProducts = findHeartsByUserId(userId);
+  let myProducts = findHeartsByUserId(userId).reverse();
 
   const startIdx = 4 * page;
   const endIdx = startIdx + 4 <= products.length ? startIdx + 4 : products.length;
