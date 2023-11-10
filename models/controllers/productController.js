@@ -280,6 +280,15 @@ const deleteProductsByUserId = userId => {
 
   imgs.forEach(img => deleteFile(img));
 
+  products = products.map(product => {
+    if (product.hearts.includes(userId)) {
+      const updatedHearts = product.hearts.filter(id => id !== userId);
+      return { ...product, hearts: updatedHearts };
+    } else {
+      return product;
+    }
+  });
+
   products = products.filter(product => product.userId !== userId);
 };
 
