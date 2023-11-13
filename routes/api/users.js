@@ -8,6 +8,14 @@ router.get('/', (req, res) => {
   res.send(user);
 });
 
+router.get('/:userId', (req, res) => {
+  const { userId } = req.params;
+
+  const user = users.findUserById(userId);
+
+  res.send(user);
+});
+
 router.patch('/personalInfo/:userId', (req, res) => {
   const { userId } = req.params;
   const userInfo = req.body;
