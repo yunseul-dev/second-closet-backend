@@ -31,4 +31,8 @@ const updateUserInfo = (userId, userInfo) => {
   users = users.map(user => (user.userId === userId ? { ...user, ...userInfo } : user));
 };
 
-module.exports = { createUser, findUserById, findUser, getUsers, deleteUser, updateUserInfo };
+const changePassword = (userId, newPassword) => {
+  users = users.map(user => (user.userId === userId ? { ...user, password: newPassword } : user));
+};
+
+module.exports = { createUser, findUserById, findUser, getUsers, deleteUser, updateUserInfo, changePassword };

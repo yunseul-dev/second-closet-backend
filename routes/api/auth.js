@@ -55,6 +55,17 @@ router.get('/signout', (req, res) => {
   res.send({ isLogin: false });
 });
 
+router.patch('/changepw/:userId', (req, res) => {
+  const { userId } = req.params;
+  const { nowPassword, newPassword } = req.body;
+
+  if (!users.findUser(userId, nowPassword)) return res.status(401).send('현재 비밀번호를 정확하게 입력해 주세요.');
+
+  users.changePassword(userId, newPassword);
+
+  res.send('비밀번호가 변경됐습니다.');
+});
+
 router.delete('/withdraw/:userId', (req, res) => {
   const { userId } = req.params;
 
