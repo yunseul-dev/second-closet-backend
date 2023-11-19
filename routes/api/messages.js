@@ -8,12 +8,31 @@ router.get('/', (req, res) => {
   res.send(allMessages);
 });
 
-router.get('/:messageId', (req, res) => {
-  const { messageId } = req.params;
+router.get('/:userId', (req, res) => {
+  const { userId } = req.params;
 
-  const message = messages.findMessageById(messageId);
+  const message = messages.findMessageByUserId(userId.replace(/"/g, ''));
 
   res.send(message);
+});
+
+router.get('/message/:messageId', (req, res) => {
+  const { messageId } = req.params;
+
+  const message = messages.findMessageByMessageId(messageId);
+
+  res.send(message);
+});
+
+router.post('/post', (req, res) => {
+  const { productId, buyerId, sellerId, productInfo } = req.body;
+
+  console.log(productInfo);
+
+  messages.createMessage(productId, buyerId, sellerId, productInfo);
+  const lastId = messages.lastMessageId();
+
+  res.send({ id: lastId });
 });
 
 router.patch('/update/:messageId', (req, res) => {

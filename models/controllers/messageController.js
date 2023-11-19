@@ -2,15 +2,33 @@ let messages = require('../mock_data/messages');
 
 const getMessages = () => messages;
 
+const createMessageId = () => (messages.length ? Math.max(...messages.map(message => +message.messageId)) + 1 : 1);
+
+const createMessage = (productId, buyerId, sellerId, productInfo) => {
+  messages = [
+    ...messages,
+    {
+      messageId: createMessageId(),
+      productId: productId,
+      buyerId: buyerId,
+      sellerId: sellerId,
+      messages: [],
+      productInfo: productInfo,
+    },
+  ];
+};
+
+const lastMessageId = () => messages[messages.length - 1].messageId;
+
 const findMessageByUserId = userId =>
   messages
-    .filter(message => message.buyerId === userId || message.sellerId === userId)
+    .filter(message => (message.buyerId === userId || message.sellerId === userId) && message.messages.length)
     .map(message => ({
       messageId: message.messageId,
       partner: [message.buyerId, message.sellerId].find(id => id !== userId),
-      latestMessage: message.messages[message.messages.length - 1],
+      messages: message.messages,
     }))
-    .sort((a, b) => b.latestMessage.timestamp - a.latestMessage.timestamp);
+    .sort((a, b) => b.messages[b.messages.length - 1].timestamp - a.messages[a.messages.length - 1].timestamp);
 
 // messageId 해당 메세지를 찾는 함수.
 const findMessageByMessageId = messageId => messages.filter(message => message.messageId === +messageId);
@@ -28,4 +46,6 @@ module.exports = {
   findMessageByUserId,
   findMessageByMessageId,
   updateMessage,
+  createMessage,
+  lastMessageId,
 };
