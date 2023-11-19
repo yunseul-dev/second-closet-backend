@@ -16,7 +16,7 @@ router.get('/:userId', (req, res) => {
   res.send(user);
 });
 
-router.patch('/personalInfo/:userId', (req, res) => {
+router.patch('/edit/:userId', (req, res) => {
   const { userId } = req.params;
   const userInfo = req.body;
 
