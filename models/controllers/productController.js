@@ -242,10 +242,12 @@ const findHeartsByUserId = userId => {
     .filter(product => product.hearts.includes(userId))
     .map(product => ({
       productId: product.productId,
+      sellerId: product.userId,
       productName: product.productName,
       imgs: product.imgs,
       price: product.price,
       delivery: product.delivery,
+      discount: product.discount,
       hearts: product.hearts,
       createdAt: product.createdAt,
       sold: product.sold,
