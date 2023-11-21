@@ -27,21 +27,17 @@ router.get('/message/:messageId', (req, res) => {
 router.post('/post', (req, res) => {
   const { productId, buyerId, sellerId, productInfo } = req.body;
 
-  console.log(productInfo);
+  const message = messages.findMessageByUserId(buyerId).find(message => message.productId === productId);
 
-  messages.createMessage(productId, buyerId, sellerId, productInfo);
-  const lastId = messages.lastMessageId();
+  let lastId;
+  if (message) {
+    lastId = message.messageId;
+  } else {
+    messages.createMessage(productId, buyerId, sellerId, productInfo);
+    lastId = messages.lastMessageId();
+  }
 
   res.send({ id: lastId });
-});
-
-router.patch('/update/:messageId', (req, res) => {
-  const { messageId } = req.params;
-  const newMessage = req.body;
-
-  messages.updateMessage(messageId, newMessage);
-
-  res.sendStatus(200);
 });
 
 module.exports = router;
