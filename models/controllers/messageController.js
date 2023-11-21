@@ -25,6 +25,7 @@ const findMessageByUserId = userId =>
     .filter(message => (message.buyerId === userId || message.sellerId === userId) && message.messages.length)
     .map(message => ({
       messageId: message.messageId,
+      productId: message.productId,
       partner: [message.buyerId, message.sellerId].find(id => id !== userId),
       messages: message.messages,
     }))
@@ -33,10 +34,13 @@ const findMessageByUserId = userId =>
 // messageId 해당 메세지를 찾는 함수.
 const findMessageByMessageId = messageId => messages.filter(message => message.messageId === +messageId);
 
-const updateMessage = (messageId, newMessage) => {
+const updateMessage = (messageId, userId, textValue) => {
   messages = messages.map(message =>
     message.messageId === +messageId
-      ? { ...message, messages: [...message.messages, { ...newMessage, timestamp: Date.now() }] }
+      ? {
+          ...message,
+          messages: [...message.messages, { senderId: userId, message: textValue, timestamp: Date.now() }],
+        }
       : message,
   );
 };
