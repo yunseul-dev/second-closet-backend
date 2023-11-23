@@ -18,7 +18,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: 'http://127.0.0.1:5173', // 클라이언트의 URL을 여기에 입력하세요 왜???
+    origin: 'http://127.0.0.1:5173',
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -40,5 +40,4 @@ app.use('/api/products', products);
 app.use('/api/messages', messages);
 io.on('connection', socket(io));
 
-// app.listen(PORT);
 server.listen(PORT);
