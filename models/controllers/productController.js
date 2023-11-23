@@ -38,7 +38,7 @@ const createProduct = (
     ...products,
     {
       productId: productId,
-      userId: userId,
+      sellerId: userId,
       productName: productName,
       imgs: imgs,
       categories: categories,
@@ -207,7 +207,7 @@ const getRelated = (productId, category) => {
 // user의 게시글을 찾는 함수
 const findProductByUserId = userId => {
   return products
-    .filter(product => product.userId === userId)
+    .filter(product => product.sellerId === userId)
     .map(product => ({
       productId: product.productId,
       productName: product.productName,
@@ -242,7 +242,7 @@ const findHeartsByUserId = userId => {
     .filter(product => product.hearts.includes(userId))
     .map(product => ({
       productId: product.productId,
-      sellerId: product.userId,
+      sellerId: product.sellerId,
       productName: product.productName,
       imgs: product.imgs,
       price: product.price,
@@ -276,7 +276,7 @@ const updateProduct = (productId, newProduct) => {
 
 const deleteProductsByUserId = userId => {
   const imgs = products
-    .filter(product => product.userId === userId)
+    .filter(product => product.sellerId === userId)
     .map(product => product.imgs)
     .flat();
 
@@ -291,7 +291,7 @@ const deleteProductsByUserId = userId => {
     }
   });
 
-  products = products.filter(product => product.userId !== userId);
+  products = products.filter(product => product.sellerId !== userId);
 };
 
 module.exports = {
