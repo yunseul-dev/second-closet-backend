@@ -32,6 +32,14 @@ router.get('/', (req, res) => {
   res.send(allProduct);
 });
 
+router.get('/search/:word', (req, res) => {
+  const { word } = req.params;
+
+  const findProducts = products.findStrings(word);
+
+  res.send(findProducts);
+});
+
 // 추천 상품(바로가기)
 router.get('/recommend', (req, res) => {
   const recommendProduct = products.getRecommend();
@@ -146,14 +154,14 @@ router.patch('/edit/:productId', upload.array('photo'), (req, res) => {
   const newProduct = JSON.parse(req.body.data);
   const { productId } = req.params;
 
+  console.log(newProduct);
+
   // newProduct.imgs[0] = existImgs
   // newProduct.imgs[1] = deleteImgs
-  if (newProduct.imgs[1]) {
+  if (newProduct.imgs) {
     newProduct.imgs[1].forEach(img => products.deleteFile(img));
   }
-
   const imgs = req.files.map(file => file.filename);
-
   newProduct.imgs = [...newProduct.imgs[0], ...imgs];
 
   products.updateProduct(productId, newProduct);
@@ -176,6 +184,16 @@ router.delete('/hearts/:productId/:userId', (req, res) => {
   products.deleteHeart(productId, userId);
 
   res.send(products);
+});
+
+// 상품 상세 정보 업데이트
+router.patch(`/update/:productId`, (req, res) => {
+  const { productId } = req.params;
+  const newProduct = req.body;
+
+  products.updateProduct(productId, newProduct);
+
+  res.sendStatus(200);
 });
 
 router.delete('/delete/:productId', (req, res) => {

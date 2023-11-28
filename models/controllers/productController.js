@@ -58,6 +58,51 @@ const createProduct = (
   ];
 };
 
+const findString = (arr, word) => {
+  let filteredStrings = [...arr];
+  for (let i = 0; i < word.length; i++) {
+    filteredStrings = filteredStrings.filter(str => str.includes(word[i]));
+    if (filteredStrings.length === 0) {
+      break;
+    }
+  }
+  return filteredStrings;
+};
+
+const allTag = () => {
+  // 모든 태그와 상품명을 모은 배열
+  const filteredProducts = products.reduce((result, product) => {
+    result.push(...product.tags);
+    return result;
+  }, []);
+
+  // 중복 제거
+  return [...new Set(filteredProducts)];
+};
+
+// word로 search
+const findStrings = word => {
+  let containString = allTag();
+
+  const normalizeWord = word
+    .toLowerCase()
+    .replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]/g, '') // 한글, 영문, 숫자만 남기고 제거
+    .replace(/[ㄱ-ㅎ]/g, ''); // 낱개의 자음 제거
+
+  if (normalizeWord === '') return [];
+
+  for (let i = 0; i < normalizeWord.length; i++) {
+    containString = containString.filter(str => str.indexOf(normalizeWord[i]) !== -1);
+  }
+
+  return containString;
+};
+
+// 태그로 물건 찾기
+const findProductsByTag = word => {
+  products.filter(({ productName, tags }) => productName.indexOf(word) !== -1 || tags.includes(word));
+};
+
 // productId로 해당 게시물을 찾는 함수.
 const findProductById = productId => products.filter(product => product.productId === +productId);
 
@@ -312,4 +357,6 @@ module.exports = {
   getMyHearts,
   updateProduct,
   deleteProductsByUserId,
+  findStrings,
+  findProductsByTag,
 };
