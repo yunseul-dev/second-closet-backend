@@ -164,8 +164,6 @@ router.patch('/edit/:productId', upload.array('photo'), (req, res) => {
   const newProduct = JSON.parse(req.body.data);
   const { productId } = req.params;
 
-  console.log(newProduct);
-
   // newProduct.imgs[0] = existImgs
   // newProduct.imgs[1] = deleteImgs
   if (newProduct.imgs) {

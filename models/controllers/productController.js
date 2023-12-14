@@ -58,17 +58,6 @@ const createProduct = (
   ];
 };
 
-const findString = (arr, word) => {
-  let filteredStrings = [...arr];
-  for (let i = 0; i < word.length; i++) {
-    filteredStrings = filteredStrings.filter(str => str.includes(word[i]));
-    if (filteredStrings.length === 0) {
-      break;
-    }
-  }
-  return filteredStrings;
-};
-
 const allTag = () => {
   // 모든 태그와 상품명을 모은 배열
   const filteredProducts = products.reduce((result, product) => {
@@ -99,7 +88,6 @@ const findStrings = word => {
 };
 
 const findProductsByTag = (tag, page, sortOptions) => {
-  console.log(tag, page, sortOptions);
   const startIdx = 8 * page;
   const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
 
