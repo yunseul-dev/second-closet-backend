@@ -57,6 +57,16 @@ router.get('/category', (req, res) => {
   res.send(newProducts);
 });
 
+// 태그 반환
+router.get('/tag', (req, res) => {
+  const sortOption = req.query.sort;
+  const { tag, page } = req.query;
+
+  const tags = products.findProductsByTag(tag.toLowerCase(), page, sortOption);
+
+  res.send(tags);
+});
+
 // user의 마이페이지
 router.get('/myproducts', (req, res) => {
   const sortOption = req.query.sort;

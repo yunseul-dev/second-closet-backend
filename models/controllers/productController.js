@@ -98,9 +98,54 @@ const findStrings = word => {
   return containString;
 };
 
-// 태그로 물건 찾기
-const findProductsByTag = word => {
-  products.filter(({ productName, tags }) => productName.indexOf(word) !== -1 || tags.includes(word));
+const findProductsByTag = (tag, page, sortOptions) => {
+  console.log(tag, page, sortOptions);
+  const startIdx = 8 * page;
+  const endIdx = startIdx + 8 <= products.length ? startIdx + 8 : products.length;
+
+  let notSortedProducts = products
+    .filter(
+      product =>
+        product.sold !== true &&
+        (product.tags.map(tag => tag.toLowerCase()).includes(tag) || product.productName.toLowerCase().includes(tag)),
+    )
+    .map(product => ({
+      productId: product.productId,
+      productName: product.productName,
+      imgs: product.imgs,
+      price: product.price,
+      createdAt: product.createdAt,
+    }));
+
+  if (sortOptions === 'latest') {
+    notSortedProducts = notSortedProducts.reverse();
+  } else if (sortOptions === 'popular') {
+    notSortedProducts = notSortedProducts.sort((a, b) => {
+      if (b.hearts - a.hearts === 0) {
+        return a.productName.localeCompare(b.productName);
+      } else {
+        return b.hearts - a.hearts;
+      }
+    });
+  } else if (sortOptions === 'highPrice') {
+    notSortedProducts = notSortedProducts.sort((a, b) => {
+      if (parseInt(b.price.replace(',', '')) - parseInt(a.price.replace(',', '')) === 0) {
+        return a.productName.localeCompare(b.productName);
+      } else {
+        return b.price.replace(',', '') - parseInt(a.price.replace(',', ''));
+      }
+    });
+  } else if (sortOptions === 'lowPrice') {
+    notSortedProducts = notSortedProducts.sort((a, b) => {
+      if (parseInt(a.price.replace(',', '')) - parseInt(b.price.replace(',', '')) === 0) {
+        return a.productName.localeCompare(b.productName);
+      } else {
+        return a.price.replace(',', '') - parseInt(b.price.replace(',', ''));
+      }
+    });
+  }
+
+  return notSortedProducts.slice(startIdx, endIdx);
 };
 
 // productId로 해당 게시물을 찾는 함수.
