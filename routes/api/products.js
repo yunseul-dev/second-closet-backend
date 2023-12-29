@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
@@ -120,7 +121,7 @@ router.get('/uploads/:filename', (req, res) => {
 });
 
 // 상품 등록
-router.post('/post', upload.array('photo'), (req, res) => {
+router.post('/post', upload.array('photo'), async (req, res) => {
   const {
     userId,
     productName,
@@ -136,7 +137,19 @@ router.post('/post', upload.array('photo'), (req, res) => {
     facetoface,
   } = JSON.parse(req.body.data);
 
-  const imgs = req.files.map(file => file.filename);
+  // const imgs = req.files.map(file => file.filename);
+
+  const imgs = [];
+
+  for (const file of req.files) {
+    const filePath = pagh.join('uploads/', file.filename);
+    const outputFilePath = path.join('uploads/', `${file.filename}.webp`);
+
+    await sharp(filePath).webp().resize({ width: 350 }).toFile(outputFilePath);
+
+    imgs.push(`${file.filename}.webp`);
+  }
+
   const productId = products.createProductId();
 
   products.createProduct(

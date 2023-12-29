@@ -262,6 +262,7 @@ const getRecommend = () => {
       maxHeartsProduct = {
         productId: product.productId,
         imgs: product.imgs,
+        productName: product.productName,
       };
     }
   }

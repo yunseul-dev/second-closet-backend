@@ -72,7 +72,7 @@ router.delete('/withdraw/:userId', (req, res) => {
   users.deleteUser(userId);
   products.deleteProductsByUserId(userId);
 
-  res.send({ isLogin: false });
+  res.send({ isLogin: false, message: `${userId}님의 탈퇴가 완료됐습니다.` });
 });
 
 module.exports = router;
