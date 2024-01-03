@@ -148,6 +148,8 @@ router.post('/post', upload.array('photo'), async (req, res) => {
     await sharp(filePath).webp().resize({ width: 350 }).toFile(outputFilePath);
 
     imgs.push(`${file.filename}.webp`);
+
+    fs.unlinkSync(filePath); // 원본 파일 삭제
   }
 
   const productId = products.createProductId();
