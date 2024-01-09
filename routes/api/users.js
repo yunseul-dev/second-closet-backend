@@ -1,26 +1,26 @@
 const express = require('express');
-const users = require('../../models/controllers/userController');
+const users = require('../../controllers/userController');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  const user = users.getUsers();
+router.get('/', async (req, res) => {
+  const user = await users.getUsers();
   res.send(user);
 });
 
-router.get('/:userId', (req, res) => {
+router.get('/:userId', async (req, res) => {
   const { userId } = req.params;
 
-  const user = users.findUserById(userId);
+  const user = await users.findUserById(userId);
 
   res.send(user);
 });
 
-router.patch('/edit/:userId', (req, res) => {
+router.patch('/edit/:userId', async (req, res) => {
   const { userId } = req.params;
   const userInfo = req.body;
 
-  users.updateUserInfo(userId, userInfo);
+  await users.updateUserInfo(userId, userInfo);
 
   res.sendStatus(200);
 });

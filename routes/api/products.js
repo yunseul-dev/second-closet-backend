@@ -4,12 +4,18 @@ const multer = require('multer');
 const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
+const aws = require('aws-sdk');
 
-const products = require('../../models/controllers/productController');
+const products = require('../../controllers/productController');
+
+// AWS S3 설정
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 try {
   if (!fs.existsSync('uploads')) {
-    // 폴더가 없으면 생성
     fs.mkdirSync('uploads');
   }
 } catch (error) {
@@ -28,201 +34,227 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get('/', (req, res) => {
-  const allProduct = products.getProducts();
+router.get('/', async (req, res) => {
+  const allProduct = await products.getProducts();
   res.send(allProduct);
 });
 
-router.get('/search/:word', (req, res) => {
+router.get('/search/:word', async (req, res) => {
   const { word } = req.params;
 
-  const findProducts = products.findStrings(word);
+  const findProducts = await products.findStrings(word);
 
   res.send(findProducts);
 });
 
 // 추천 상품(바로가기)
-router.get('/recommend', (req, res) => {
-  const recommendProduct = products.getRecommend();
+router.get('/recommend', async (req, res) => {
+  const recommendProduct = await products.getRecommend();
 
   res.send(recommendProduct);
 });
 
 // 카테고리 별로 가져오기
-router.get('/category', (req, res) => {
+router.get('/category', async (req, res) => {
   const sortOption = req.query.sort;
   const { category, page } = req.query;
 
-  const newProducts = products.getCategory(category, page, sortOption);
+  const newProducts = await products.getCategory(category, page, sortOption);
 
   res.send(newProducts);
 });
 
 // 태그 반환
-router.get('/tag', (req, res) => {
+router.get('/tag', async (req, res) => {
   const sortOption = req.query.sort;
   const { tag, page } = req.query;
 
-  const tags = products.findProductsByTag(tag.toLowerCase(), page, sortOption);
+  const tags = await products.findProductsByTag(tag.toLowerCase(), page, sortOption);
 
   res.send(tags);
 });
 
 // user의 마이페이지
-router.get('/myproducts', (req, res) => {
+router.get('/myproducts', async (req, res) => {
   const sortOption = req.query.sort;
   const { userId, page } = req.query;
 
-  const newProducts = products.getMyProducts(userId, page, sortOption);
+  const newProducts = await products.getMyProducts(userId, page, sortOption);
 
   res.send(newProducts);
 });
 
-router.get('/myhearts', (req, res) => {
+router.get('/myhearts', async (req, res) => {
   const sortOption = req.query.sort;
   const { userId, page } = req.query;
 
-  const newProducts = products.getMyHearts(userId, page, sortOption);
+  const newProducts = await products.getMyHearts(userId, page, sortOption);
 
   res.send(newProducts);
 });
 
-router.get('/related/:productId/:category', (req, res) => {
+router.get('/related/:productId/:category', async (req, res) => {
   const { productId, category } = req.params;
-  const relatedProduct = products.getRelated(productId, category);
+  const relatedProduct = await products.getRelated(productId, category);
 
   res.send(relatedProduct);
 });
 
 // 인기순 무한스크롤
-router.get('/populars/:page', (req, res) => {
+router.get('/populars/:page', async (req, res) => {
   const { page } = req.params;
 
-  const populars = products.getPopulars(page);
+  const populars = await products.getPopulars(page);
 
   res.send(populars);
 });
 
 // 상품 상세페이지
-router.get('/:productId', (req, res) => {
+router.get('/:productId', async (req, res) => {
   const { productId } = req.params;
 
-  const product = products.findProductById(productId);
+  const product = await products.findProductById(productId);
 
   res.send(product);
 });
 
-router.get('/uploads/:filename', (req, res) => {
-  const { filename } = req.params;
-
-  const filePath = path.join(process.cwd(), 'uploads', filename);
-
-  res.sendFile(filePath);
-});
-
 // 상품 등록
 router.post('/post', upload.array('photo'), async (req, res) => {
-  const {
-    userId,
-    productName,
-    categories,
-    count,
-    price,
-    discount,
-    delivery,
-    exchange,
-    description,
-    tags,
-    size,
-    facetoface,
-  } = JSON.parse(req.body.data);
+  try {
+    const {
+      userId,
+      productName,
+      categories,
+      count,
+      price,
+      discount,
+      delivery,
+      exchange,
+      description,
+      tags,
+      size,
+      facetoface,
+    } = JSON.parse(req.body.data);
 
-  // const imgs = req.files.map(file => file.filename);
+    const imgs = [];
 
-  const imgs = [];
+    for (const file of req.files) {
+      const filePath = path.join('uploads/', file.filename);
+      const outputFilePath = path.join('uploads/', `${file.filename}.webp`);
 
-  for (const file of req.files) {
-    const filePath = pagh.join('uploads/', file.filename);
-    const outputFilePath = path.join('uploads/', `${file.filename}.webp`);
+      await sharp(filePath).webp().resize({ width: 450 }).toFile(outputFilePath);
 
-    await sharp(filePath).webp().resize({ width: 350 }).toFile(outputFilePath);
+      const fileContent = fs.readFileSync(outputFilePath);
 
-    imgs.push(`${file.filename}.webp`);
+      const params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: `images/${file.filename}.webp`,
+        Body: fileContent,
+        ContentType: 'image/webp',
+      };
 
-    fs.unlinkSync(filePath); // 원본 파일 삭제
+      const uploadResult = await s3.upload(params).promise();
+
+      imgs.push(uploadResult.Location);
+
+      // fs.unlinkSync(filePath); // 원본 파일 삭제
+      fs.unlinkSync(outputFilePath); // 변환된 파일 삭제
+    }
+
+    await products.createProduct(
+      userId,
+      productName,
+      imgs,
+      categories,
+      count,
+      price,
+      discount,
+      delivery,
+      exchange,
+      description,
+      tags,
+      size,
+      facetoface,
+    );
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('상품 정보를 가져오는데 실패했습니다.');
   }
-
-  const productId = products.createProductId();
-
-  products.createProduct(
-    productId,
-    userId,
-    productName,
-    imgs,
-    categories,
-    count,
-    price,
-    discount,
-    delivery,
-    exchange,
-    description,
-    tags,
-    size,
-    facetoface,
-  );
-
-  res.sendStatus(200);
 });
 
 // 상품 수정
-router.patch('/edit/:productId', upload.array('photo'), (req, res) => {
+router.patch('/edit/:productId', upload.array('photo'), async (req, res) => {
   const newProduct = JSON.parse(req.body.data);
   const { productId } = req.params;
 
-  // newProduct.imgs[0] = existImgs
-  // newProduct.imgs[1] = deleteImgs
-  if (newProduct.imgs) {
-    newProduct.imgs[1].forEach(img => products.deleteFile(img));
-  }
-  const imgs = req.files.map(file => file.filename);
-  newProduct.imgs = [...newProduct.imgs[0], ...imgs];
+  console.log('new', newProduct);
 
-  products.updateProduct(productId, newProduct);
+  const imgs = [...newProduct.imgs];
+
+  // 이미지 업로드 및 S3에 저장
+  for (const file of req.files) {
+    const filePath = path.join('uploads/', file.filename);
+    const outputFilePath = path.join('uploads/', `${file.filename}.webp`);
+
+    await sharp(filePath).webp().resize({ width: 450 }).toFile(outputFilePath);
+
+    const fileContent = fs.readFileSync(outputFilePath);
+
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: `images/${file.filename}.webp`,
+      Body: fileContent,
+      ContentType: 'image/webp',
+    };
+
+    const uploadResult = await s3.upload(params).promise();
+
+    imgs.push(uploadResult.Location);
+
+    // 변환된 파일 삭제
+    fs.unlinkSync(outputFilePath);
+  }
+
+  newProduct.imgs = imgs;
+
+  await products.updateProduct(productId, newProduct);
 
   res.sendStatus(200);
 });
 
 // 찜 업데이트
-router.patch('/hearts/:productId/:userId', (req, res) => {
+router.patch('/hearts/:productId/:userId', async (req, res) => {
   const { productId, userId } = req.params;
 
-  products.addHeart(productId, userId);
+  await products.addHeart(productId, userId);
 
   res.send(products);
 });
 
-router.delete('/hearts/:productId/:userId', (req, res) => {
+router.delete('/hearts/:productId/:userId', async (req, res) => {
   const { productId, userId } = req.params;
 
-  products.deleteHeart(productId, userId);
+  await products.deleteHeart(productId, userId);
 
   res.send(products);
 });
 
 // 상품 상세 정보 업데이트
-router.patch(`/update/:productId`, (req, res) => {
+router.patch(`/update/:productId`, async (req, res) => {
   const { productId } = req.params;
   const newProduct = req.body;
 
-  products.updateProduct(productId, newProduct);
+  await products.updateProduct(productId, newProduct);
 
   res.sendStatus(200);
 });
 
-router.delete('/delete/:productId', (req, res) => {
+router.delete('/delete/:productId', async (req, res) => {
   const { productId } = req.params;
 
-  products.deleteProduct(productId);
+  await products.deleteProduct(productId);
 
   res.sendStatus(200);
 });
