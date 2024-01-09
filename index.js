@@ -6,6 +6,9 @@ const socketIo = require('socket.io');
 
 require('dotenv').config();
 
+const connectDB = require('./db/index');
+connectDB(process.env.MONGO_URI);
+
 const corsOptions = {
   origin: process.env.CORS_CLIENT_URL,
   optionsSuccessStatus: 200,
@@ -18,7 +21,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: 'http://127.0.0.1:5173',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -28,6 +31,7 @@ const auth = require('./routes/api/auth');
 const users = require('./routes/api/users');
 const products = require('./routes/api/products');
 const messages = require('./routes/api/messages');
+
 const socket = require('./socket/messages');
 
 app.use(cors(corsOptions));
