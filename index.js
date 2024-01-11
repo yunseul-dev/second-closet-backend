@@ -19,13 +19,7 @@ const { PORT } = process.env;
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
-});
+const io = socketIo(server, corsOptions);
 
 const auth = require('./routes/api/auth');
 const users = require('./routes/api/users');
