@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@img/sharp-linux-x64": "^0.33.0",
     "aws-sdk": "^2.1531.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -24,7 +23,7 @@
     "multer-s3": "^3.0.1",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
-    "sharp": "^0.33.0",
+    "sharp": "^0.33.1",
     "socket.io": "^4.7.2",
     "uuid": "^9.0.1"
   },

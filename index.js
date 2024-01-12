@@ -10,7 +10,8 @@ const connectDB = require('./db/index');
 connectDB(process.env.MONGO_URI);
 
 const corsOptions = {
-  origin: [process.env.CORS_CLIENT_URL, 'http://localhost:5173'],
+  origin: [process.env.CORS_CLIENT_URL, process.env.CORS_SERVER_URL, 'http://localhost:5173'],
+  methods: ['GET', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
   credentials: true,
 };
