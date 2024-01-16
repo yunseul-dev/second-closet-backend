@@ -110,3 +110,6 @@ package-lock.json
 # Modck-data
 uploads
 mock_data
+
+# pem
+second_closet.pem
