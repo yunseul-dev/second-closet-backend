@@ -10,7 +10,11 @@ const connectDB = require('./db/index');
 connectDB(process.env.MONGO_URI);
 
 const corsOptions = {
-  origin: [process.env.CORS_CLIENT_URL, process.env.CORS_SERVER_URL, 'http://localhost:5173'],
+  origin: [
+    'http://secondclosett.s3-website.ap-northeast-2.amazonaws.com/',
+    process.env.CORS_SERVER_URL,
+    'http://localhost:5173',
+  ],
   methods: ['GET', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
   credentials: true,
