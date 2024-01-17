@@ -6,7 +6,7 @@ const socketIo = require('socket.io');
 
 require('dotenv').config();
 
-const connectDB = require('./db/index');
+const connectDB = require('../db');
 connectDB(process.env.MONGO_URI);
 
 const corsOptions = {
@@ -22,12 +22,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, corsOptions);
 
-const auth = require('./routes/api/auth');
-const users = require('./routes/api/users');
-const products = require('./routes/api/products');
-const messages = require('./routes/api/messages');
+const auth = require('../routes/api/auth');
+const users = require('../routes/api/users');
+const products = require('../routes/api/products');
+const messages = require('../routes/api/messages');
 
-const socket = require('./socket/messages');
+const socket = require('../socket/messages');
 
 app.use(cors(corsOptions));
 app.use(express.json());
