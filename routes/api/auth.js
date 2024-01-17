@@ -20,6 +20,8 @@ router.get('/verify', async (req, res) => {
 router.post('/signin', async (req, res) => {
   const { userId, password } = req.body;
 
+  console.log('id', userId);
+
   const user = await users.findUser(userId, password);
 
   if (!user) return res.status(401).send('잘못된 아이디나 비밀번호가 입력됐습니다.');
@@ -32,6 +34,8 @@ router.post('/signin', async (req, res) => {
     sameSite: 'none',
     secure: true,
   });
+
+  console.log('send', userId);
 
   res.send(userId);
 });
