@@ -13,6 +13,7 @@ const corsOptions = {
   origin: [process.env.CORS_CLIENT_URL, 'http://localhost:5173'],
   methods: ['GET', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
+  credentials: true,
 };
 
 const { PORT } = process.env;
