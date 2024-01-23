@@ -14,6 +14,7 @@ const corsOptions = {
   methods: ['GET', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
   credentials: true,
+  transports: ['websocket'],
 };
 
 const { PORT } = process.env;
