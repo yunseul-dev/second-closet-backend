@@ -13,8 +13,6 @@ const corsOptions = {
   origin: [process.env.CORS_CLIENT_URL, 'http://localhost:5173'],
   methods: ['GET', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
-  credentials: true,
-  transports: ['websocket'],
 };
 
 const { PORT } = process.env;
