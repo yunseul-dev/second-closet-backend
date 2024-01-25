@@ -29,8 +29,7 @@ router.post('/signin', async (req, res) => {
   res.cookie('accessToken', accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: false,
-    secure: true,
-    sameSite: 'none',
+    secure: false,
   });
 
   res.send(userId);
