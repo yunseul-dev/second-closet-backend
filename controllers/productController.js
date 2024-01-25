@@ -199,20 +199,6 @@ const deleteHeart = async (productId, userId) => {
   await Product.findOneAndUpdate({ productId }, { $pull: { hearts: userId } }, { new: true });
 };
 
-// 인기상품
-// const getPopulars = async page => {
-//   const startIdx = 8 * page;
-//   const endIdx = startIdx + 8;
-
-//   const popularProducts = await Product.find({ sold: false })
-//     .sort({ hearts: -1, productName: 1 })
-//     .skip(startIdx)
-//     .limit(endIdx - startIdx)
-//     .select('productId productName imgs hearts price');
-
-//   return popularProducts;
-// };
-
 const getPopulars = async page => {
   const startIdx = 8 * page;
   const endIdx = startIdx + 8;
@@ -241,14 +227,7 @@ const getCategory = async (category, page, sortOptions) => {
   const startIdx = 8 * page;
   const endIdx = startIdx + 8;
 
-  let query = { sold: false, categories: { $elemMatch: { $eq: category[0] } } };
-
-  if (category.length === 2) {
-    query.categories.$elemMatch.$eq = category[1];
-  } else if (category.length === 3) {
-    query.categories.$elemMatch.$eq = category[1];
-    query.categories.$elemMatch.$eq = category[2];
-  }
+  let query = { sold: false, categories: { $all: category } };
 
   let sortedProducts;
 
