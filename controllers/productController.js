@@ -125,18 +125,41 @@ const findProductsByTag = async (tag, page, sortOptions) => {
     } else if (sortOptions === 'popular') {
       sort = { hearts: -1, productName: 1 };
     } else if (sortOptions === 'highPrice') {
-      sort = { price: -1, productName: 1 };
+      sort = { numericPrice: -1, productName: 1 };
     } else if (sortOptions === 'lowPrice') {
-      sort = { price: 1, productName: 1 };
+      sort = { numericPrice: 1, productName: 1 };
     }
 
-    const products = await Product.find(query)
-      .sort(sort)
-      .skip(startIdx)
-      .limit(8)
-      .select('productId productName imgs price createdAt');
+    const sortedProducts = await Product.aggregate([
+      { $match: query },
+      {
+        $addFields: {
+          numericPrice: {
+            $toInt: {
+              $replaceAll: {
+                input: '$price',
+                find: ',',
+                replacement: '',
+              },
+            },
+          },
+        },
+      },
+      { $sort: sort },
+      { $skip: startIdx },
+      { $limit: endIdx - startIdx },
+      {
+        $project: {
+          productId: 1,
+          productName: 1,
+          imgs: { $arrayElemAt: ['$imgs', 0] },
+          price: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
 
-    return products;
+    return sortedProducts;
   } catch (error) {
     console.error(error);
     throw new Error('태그로 게시글을 검색할 수 없습니다.');
@@ -180,15 +203,6 @@ const deleteProduct = async productId => {
   }
 };
 
-// 찜 개수 찾기
-const findProductHearts = async productId => {
-  const product = await Product.findOne({ productId });
-  if (product) {
-    return product.hearts.length;
-  }
-  return 0;
-};
-
 // 찜 더하기
 const addHeart = async (productId, userId) => {
   await Product.findOneAndUpdate({ productId }, { $push: { hearts: userId } }, { new: true });
@@ -229,33 +243,47 @@ const getCategory = async (category, page, sortOptions) => {
 
   let query = { sold: false, categories: { $all: category } };
 
-  let sortedProducts;
+  let sort = {};
 
   if (sortOptions === 'latest') {
-    sortedProducts = await Product.find(query)
-      .sort({ createdAt: -1 })
-      .skip(startIdx)
-      .limit(endIdx - startIdx)
-      .select('productId productName imgs price createdAt');
+    sort = { createdAt: -1, productName: 1 };
   } else if (sortOptions === 'popular') {
-    sortedProducts = await Product.find(query)
-      .sort({ hearts: -1, productName: 1 })
-      .skip(startIdx)
-      .limit(endIdx - startIdx)
-      .select('productId productName imgs hearts price');
+    sort = { hearts: -1, productName: 1 };
   } else if (sortOptions === 'highPrice') {
-    sortedProducts = await Product.find(query)
-      .sort({ price: -1, productName: 1 })
-      .skip(startIdx)
-      .limit(endIdx - startIdx)
-      .select('productId productName imgs price');
+    sort = { numericPrice: -1, productName: 1 };
   } else if (sortOptions === 'lowPrice') {
-    sortedProducts = await Product.find(query)
-      .sort({ price: 1, productName: 1 })
-      .skip(startIdx)
-      .limit(endIdx - startIdx)
-      .select('productId productName imgs price');
+    sort = { numericPrice: 1, productName: 1 };
   }
+
+  const sortedProducts = await Product.aggregate([
+    { $match: query },
+    {
+      $addFields: {
+        numericPrice: {
+          $toInt: {
+            $replaceAll: {
+              input: '$price',
+              find: ',',
+              replacement: '',
+            },
+          },
+        },
+      },
+    },
+    { $sort: sort },
+    { $skip: startIdx },
+    { $limit: endIdx - startIdx },
+    {
+      $project: {
+        productId: 1,
+        productName: 1,
+        imgs: { $arrayElemAt: ['$imgs', 0] },
+        heartsCount: { $cond: [{ $isArray: '$hearts' }, { $size: '$hearts' }, 0] },
+        price: 1,
+        createdAt: 1,
+      },
+    },
+  ]);
 
   return sortedProducts;
 };
@@ -293,20 +321,20 @@ const findProductByUserId = async userId => {
 
 // 내 상품(sort별)
 const getMyProducts = async (userId, page, sortOption) => {
-  const startIdx = 4 * page;
-  const endIdx = startIdx + 4;
+  const myProducts = await findProductByUserId(userId);
 
-  let myProducts = await findProductByUserId(userId);
+  const startIdx = 4 * page;
+  const endIdx = startIdx + 4 <= myProducts.length ? startIdx + 4 : myProducts.length;
 
   if (sortOption === 'all') {
-    myProducts = myProducts.slice(startIdx, endIdx);
+    return myProducts.slice(startIdx, endIdx);
   } else if (sortOption === 'sold') {
-    myProducts = myProducts.filter(product => product.sold).slice(startIdx, endIdx);
+    return myProducts.filter(product => product.sold).slice(startIdx, endIdx);
   } else if (sortOption === 'notSold') {
-    myProducts = myProducts.filter(product => !product.sold).slice(startIdx, endIdx);
+    return myProducts.filter(product => !product.sold).slice(startIdx, endIdx);
   }
 
-  return myProducts;
+  // return myProducts;
 };
 
 // user의 찜한 게시물을 찾는 함수

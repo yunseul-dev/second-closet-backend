@@ -5,6 +5,7 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const aws = require('aws-sdk');
+const jwt = require('jsonwebtoken');
 
 const products = require('../../controllers/productController');
 
@@ -39,10 +40,10 @@ router.get('/', async (req, res) => {
   res.send(allProduct);
 });
 
-router.get('/search/:word', async (req, res) => {
-  const { word } = req.params;
+router.get('/search', async (req, res) => {
+  const { q } = req.query;
 
-  const findProducts = await products.findStrings(word);
+  const findProducts = await products.findStrings(q);
 
   res.send(findProducts);
 });
@@ -56,53 +57,54 @@ router.get('/recommend', async (req, res) => {
 
 // 카테고리 별로 가져오기
 router.get('/category', async (req, res) => {
-  const sortOption = req.query.sort;
-  const { category, page } = req.query;
+  const { sort, category, page } = req.query;
 
-  const newProducts = await products.getCategory(category, page, sortOption);
+  const newProducts = await products.getCategory(category, page, sort);
 
   res.send(newProducts);
 });
 
 // 태그 반환
 router.get('/tag', async (req, res) => {
-  const sortOption = req.query.sort;
-  const { tag, page } = req.query;
+  const { sort, tag, page } = req.query;
 
-  const tags = await products.findProductsByTag(tag.toLowerCase(), page, sortOption);
+  const tags = await products.findProductsByTag(tag.toLowerCase(), page, sort);
 
   res.send(tags);
 });
 
 // user의 마이페이지
 router.get('/myproducts', async (req, res) => {
-  const sortOption = req.query.sort;
-  const { userId, page } = req.query;
+  const { sort, page } = req.query;
+  const accessToken = req.cookies.accessToken;
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
 
-  const newProducts = await products.getMyProducts(userId, page, sortOption);
+  const newProducts = await products.getMyProducts(decoded.userId, page, sort);
 
   res.send(newProducts);
 });
 
 router.get('/myhearts', async (req, res) => {
-  const sortOption = req.query.sort;
-  const { userId, page } = req.query;
+  const { sort, page } = req.query;
 
-  const newProducts = await products.getMyHearts(userId, page, sortOption);
+  const accessToken = req.cookies.accessToken;
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+
+  const newProducts = await products.getMyHearts(decoded.userId, page, sort);
 
   res.send(newProducts);
 });
 
-router.get('/related/:productId/:category', async (req, res) => {
-  const { productId, category } = req.params;
-  const relatedProduct = await products.getRelated(productId, category);
+router.get('/related', async (req, res) => {
+  const { id, category } = req.query;
+  const relatedProduct = await products.getRelated(id, category);
 
   res.send(relatedProduct);
 });
 
 // 인기순 무한스크롤
-router.get('/populars/:page', async (req, res) => {
-  const { page } = req.params;
+router.get('/populars', async (req, res) => {
+  const { page } = req.query;
 
   const populars = await products.getPopulars(page);
 
@@ -119,7 +121,7 @@ router.get('/:productId', async (req, res) => {
 });
 
 // 상품 등록
-router.post('/post', upload.array('photo'), async (req, res) => {
+router.post('/', upload.array('photo'), async (req, res) => {
   try {
     const {
       userId,
@@ -185,11 +187,9 @@ router.post('/post', upload.array('photo'), async (req, res) => {
 });
 
 // 상품 수정
-router.patch('/edit/:productId', upload.array('photo'), async (req, res) => {
+router.patch('/:productId', upload.array('photo'), async (req, res) => {
   const newProduct = JSON.parse(req.body.data);
   const { productId } = req.params;
-
-  console.log('new', newProduct);
 
   const imgs = [...newProduct.imgs];
 
@@ -225,18 +225,24 @@ router.patch('/edit/:productId', upload.array('photo'), async (req, res) => {
 });
 
 // 찜 업데이트
-router.patch('/hearts/:productId/:userId', async (req, res) => {
-  const { productId, userId } = req.params;
+router.patch('/hearts/:productId', async (req, res) => {
+  const { productId } = req.params;
 
-  await products.addHeart(productId, userId);
+  const accessToken = req.cookies.accessToken;
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+
+  await products.addHeart(productId, decoded.userId);
 
   res.send(products);
 });
 
-router.delete('/hearts/:productId/:userId', async (req, res) => {
-  const { productId, userId } = req.params;
+router.delete('/hearts/:productId', async (req, res) => {
+  const { productId } = req.params;
 
-  await products.deleteHeart(productId, userId);
+  const accessToken = req.cookies.accessToken;
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+
+  await products.deleteHeart(productId, decoded.userId);
 
   res.send(products);
 });
@@ -251,7 +257,7 @@ router.patch(`/update/:productId`, async (req, res) => {
   res.sendStatus(200);
 });
 
-router.delete('/delete/:productId', async (req, res) => {
+router.delete('/:productId', async (req, res) => {
   const { productId } = req.params;
 
   await products.deleteProduct(productId);

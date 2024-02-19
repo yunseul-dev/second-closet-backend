@@ -1,6 +1,6 @@
 const express = require('express');
 const messages = require('../../controllers/messageController');
-
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -8,15 +8,16 @@ router.get('/', async (req, res) => {
   res.send(allMessages);
 });
 
-router.get('/:userId', async (req, res) => {
-  const { userId } = req.params;
+router.get('/user', async (req, res) => {
+  const accessToken = req.cookies.accessToken;
+  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
 
-  const message = await messages.findMessageByUserId(userId.replace(/"/g, ''));
+  const message = await messages.findMessageByUserId(decoded.userId);
 
   res.send(message);
 });
 
-router.get('/message/:messageId', async (req, res) => {
+router.get('/:messageId', async (req, res) => {
   const { messageId } = req.params;
 
   const message = await messages.findMessageByMessageId(messageId);
@@ -24,13 +25,11 @@ router.get('/message/:messageId', async (req, res) => {
   res.send(message);
 });
 
-router.post('/post', async (req, res) => {
+router.post('/', async (req, res) => {
   const { productId, buyerId, sellerId, productInfo } = req.body;
 
   const tmp = await messages.findMessageByUserId(buyerId);
   const message = tmp.find(message => message.productId === productId);
-
-  console.log(message);
 
   let lastId;
   if (message) {
