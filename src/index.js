@@ -33,10 +33,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/auth', auth);
-app.use('/api/users', users);
-app.use('/api/products', products);
-app.use('/api/messages', messages);
+app.use('/auth', auth);
+app.use('/users', users);
+app.use('/products', products);
+app.use('/messages', messages);
 io.on('connection', socket(io));
 
 server.listen(PORT);
