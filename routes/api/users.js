@@ -17,9 +17,16 @@ router.patch('/', async (req, res) => {
 
   const accessToken = req.cookies.accessToken;
   const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-  console.log('userInfo', userInfo);
 
   await users.updateUserInfo(decoded.userId, userInfo);
+
+  res.sendStatus(200);
+});
+
+router.patch('/option', async (req, res) => {
+  const userInfo = req.body;
+
+  await users.updateUserInfo(userInfo.userId, userInfo.data);
 
   res.sendStatus(200);
 });
