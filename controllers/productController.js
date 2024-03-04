@@ -219,9 +219,6 @@ const getPopulars = async page => {
 
   const popularProducts = await Product.aggregate([
     { $match: { sold: false } },
-    { $sort: { hearts: -1, productName: 1 } },
-    { $skip: startIdx },
-    { $limit: endIdx - startIdx },
     {
       $project: {
         productId: 1,
@@ -231,24 +228,43 @@ const getPopulars = async page => {
         price: 1,
       },
     },
+    { $sort: { heartsCount: -1, productName: 1 } },
+    { $skip: startIdx },
+    { $limit: endIdx - startIdx },
   ]);
 
   return popularProducts;
 };
 
-// 카테고리별 상품
+// category 별
 const getCategory = async (category, page, sortOptions) => {
   const startIdx = 8 * page;
   const endIdx = startIdx + 8;
 
   let query = { sold: false, categories: { $all: category } };
 
+  // $addFields를 통해 heartsCount 필드를 추가합니다.
+  let addFields = {
+    numericPrice: {
+      $toInt: {
+        $replaceAll: {
+          input: '$price',
+          find: ',',
+          replacement: '',
+        },
+      },
+    },
+  };
+
+  // 수정된 sort 객체를 정의합니다.
   let sort = {};
 
   if (sortOptions === 'latest') {
     sort = { createdAt: -1, productName: 1 };
   } else if (sortOptions === 'popular') {
-    sort = { hearts: -1, productName: 1 };
+    // 'popular'이면 배열 길이를 기준으로 정렬합니다.
+    addFields.heartsCount = { $size: '$hearts' };
+    sort = { heartsCount: -1, productName: 1 };
   } else if (sortOptions === 'highPrice') {
     sort = { numericPrice: -1, productName: 1 };
   } else if (sortOptions === 'lowPrice') {
@@ -257,19 +273,7 @@ const getCategory = async (category, page, sortOptions) => {
 
   const sortedProducts = await Product.aggregate([
     { $match: query },
-    {
-      $addFields: {
-        numericPrice: {
-          $toInt: {
-            $replaceAll: {
-              input: '$price',
-              find: ',',
-              replacement: '',
-            },
-          },
-        },
-      },
-    },
+    { $addFields: addFields },
     { $sort: sort },
     { $skip: startIdx },
     { $limit: endIdx - startIdx },
