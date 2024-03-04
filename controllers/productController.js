@@ -320,7 +320,10 @@ const findProductByUserId = async userId => {
     'productId productName imgs price delivery hearts createdAt sold',
   );
 
-  return userProducts;
+  return userProducts.map(product => ({
+    ...product._doc,
+    hearts: product.hearts.length,
+  }));
 };
 
 // 내 상품(sort별)
@@ -337,8 +340,6 @@ const getMyProducts = async (userId, page, sortOption) => {
   } else if (sortOption === 'notSold') {
     return myProducts.filter(product => !product.sold).slice(startIdx, endIdx);
   }
-
-  // return myProducts;
 };
 
 // user의 찜한 게시물을 찾는 함수
