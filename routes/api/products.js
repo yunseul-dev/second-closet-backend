@@ -233,7 +233,7 @@ router.patch('/hearts/:productId', async (req, res) => {
 
   await products.addHeart(productId, decoded.userId);
 
-  res.send(products);
+  res.sendStatus(200);
 });
 
 router.delete('/hearts/:productId', async (req, res) => {
@@ -244,7 +244,7 @@ router.delete('/hearts/:productId', async (req, res) => {
 
   await products.deleteHeart(productId, decoded.userId);
 
-  res.send(products);
+  res.sendStatus(200);
 });
 
 // 상품 상세 정보 업데이트
